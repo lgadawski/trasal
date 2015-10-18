@@ -18,7 +18,7 @@ int main(int ac, char* av[]) {
 
 	const int mapSize = 4;
 
-	Map map = Map::ConstructMapOfSize(mapSize);
+	Map map = Map::ConstructMapOfSize(mapSize, 0, 200);
 
 	cout << "X: " << map.GetMapSize() << " " << map.GetNumbBits() << endl;
 

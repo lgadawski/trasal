@@ -5,10 +5,14 @@
 #include <map>
 #include <iostream>
 #include <algorithm>
+#include <string>
 #include "BitsUtil.h"
 #include "Individual.h"
 
 using namespace std;
+
+
+
 /** klasa reprezentująca mapę miast węzły (mneiasta) są reprezentowane w postaci binarnej.
  * Krawędzie łączące są przechowywa ne w tablicy dwuwymiarowej
  *
@@ -18,9 +22,12 @@ private:
 
 	int mapSize;
 	int num_bits;
-	map<pair<City, City>, int> cityDistanceMap;
+	map<pair<City, City >, int> cityDistanceMap;
 	set<City> citySet;
 public:
+	typedef pair<City, City> pair_of_cityies;
+
+
 	Map() :
 			mapSize(0), num_bits(0) {
 	}
@@ -38,8 +45,10 @@ public:
 		return num_bits;
 	}
 
-	static Map& ConstructMapOfSize(int mapSize, int lowestPossibleDistance,
+	static shared_ptr<Map>  ConstructMapOfSize(int mapSize, int lowestPossibleDistance,
 			int highestPossibleDistance);
+
+	string toString();
 };
 
 #endif /* MAP_H_ */

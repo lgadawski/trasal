@@ -10,7 +10,7 @@ public:
 	City(int aid, int num_bits) :
 		id(aid),
 		gen(boost::dynamic_bitset<>(num_bits, id)) {}
-
+	int getId()const{return id;};
 	friend bool operator< (const City &left, const City &right) { return left.id < right.id; }
 };
 

@@ -4,7 +4,7 @@
 #include <string>
 #include <iostream>
 #include <fstream>
-
+#include "Map.h"
 using namespace std;
 
 const string SEPARATOR = "=";
@@ -38,24 +38,9 @@ public:
 	void SetPropabilityOfCrossover(double poc) { propabilityOfCrossover = poc; }
 	void SetPropabilityOfMutation(double pom) { propabilityOfMutation = pom; }
 
-	static Configuration& ReadFromFile(string file_name) {
-		Configuration *c = new Configuration();
-		ifstream file(file_name.c_str());
-		if (file.is_open()) {
-			string line;
-			while (getline(file, line)) {
-				string param_name = line.substr(0, line.find(SEPARATOR));
-				string value = line.erase(0, line.find(SEPARATOR) + SEPARATOR.length());
-				cout << param_name << " = " << value << " " << endl;
-				if (POP_SIZE.compare(param_name)) c->SetPopulationSize(stoi(value));
-				if (PROP_OF_CROSS.compare(param_name)) c->SetPropabilityOfCrossover(stod(value));
-				if (PROP_OF_MUT.compare(param_name)) c->SetPropabilityOfMutation(stod(value));
-			}
-			file.close();
-		}
+	static Configuration& ReadFromFile(string file_name);
 
-		return *c;
-	}
+	static bool WriteMapToFile(string path, Map& m);
 };
 
 #endif

@@ -35,7 +35,7 @@ int main(int ac, char* av[]) {
 	      	("help", "produce help message")
 	        ("i", po::value<string>(), "this option specifies input file name")
 	        ("o", po::value<string>(), "this option specifies output file name")
-			("random", "set random graph generation")
+			("random", po::value<int>(),"set random graph generation")
 			("test", "testing option")
 	    ;
 
@@ -50,13 +50,15 @@ int main(int ac, char* av[]) {
 
 	    if(vm.count("test")){
 	    	cout<< "Starting testing"<<"\n";
+	    	shared_ptr<Map> pm = Configuration::ReadMapFromFile("conf/mapa.txt");
 
-	    	shared_ptr<Map> pmap(Map::ConstructMapOfSize(6, 10, 500));
-	    	if(pmap){
-	    		shared_ptr<Map> sp_map(pmap);
-	    		cout<<sp_map->toString()<<endl;
-	    		Configuration::WriteMapToFile("conf/mapa.txt",*sp_map);
-	    	}
+
+//	    	shared_ptr<Map> pmap(Map::ConstructMapOfSize(6, 10, 500));
+//	    	if(pmap){
+//	    		shared_ptr<Map> sp_map(pmap);
+//	    		cout<<sp_map->toString()<<endl;
+//	    		Configuration::WriteMapToFile("conf/mapa.txt",*sp_map);
+//	    	}
 
 	    	return 0;
 	    }
@@ -71,16 +73,19 @@ int main(int ac, char* av[]) {
 	        cout << "Output file was set to " << vm["o"].as<string>() << ".\n";
 
 	        if(randomFlag){
-	        if(vm.)
-	        // here random graph generation happens
+	        	if(vm["random"].empty()){
+	        	cout<<"-random flag requires a value.(ex: ./trasal -random=8)"<<endl;
+	        	return -1;
+	        	}
+	        	// here random graph generation happens
 
-          	// here saving generated graph to input file
+	        	// here saving generated graph to input file
 
-           	// here should be generating solution via genetic algorithm
+	        	// here should be generating solution via genetic algorithm
 
-           	// here saving solution to output file
+	        	// here saving solution to output file
         	}else{
-
+        		shared_ptr<Map> pm = Configuration::ReadMapFromFile(vm["i"].as<string>());
         	}
 	    } else {
 	        cout << "Input or output file was not set and they are mandatory for this program to work.\n";

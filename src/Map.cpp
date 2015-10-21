@@ -38,7 +38,9 @@ string Map::toString(){
 		string temp;
 		ss>>temp;
 		ss.flush().clear();
-		vertexes.append(temp).append("\t");
+		vertexes.append(temp);
+		if(next(it,1)!=citySet.end())
+			vertexes.append("\t");
 
 	}
 	vertexes.append("\n");
@@ -61,7 +63,7 @@ string Map::toString(){
 		ss<<it->second;
 		ss>>temp;
 		ss.flush().clear();
-		edges.append(temp).append("\t").append("\n");
+		edges.append(temp).append("\n");
 	}
 
 	vertexes.append(edges);

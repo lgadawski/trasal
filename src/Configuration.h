@@ -18,7 +18,7 @@ private:
 	int populationSize;
 	double propabilityOfCrossover;
 	double propabilityOfMutation;
-
+	static vector<int> parseIntTabLine(string line);
 public:
 	Configuration() :
 		populationSize(50),
@@ -41,6 +41,7 @@ public:
 	static Configuration& ReadFromFile(string file_name);
 
 	static bool WriteMapToFile(string path, Map& m);
+	static shared_ptr<Map> ReadMapFromFile(string path);
 };
 
 #endif

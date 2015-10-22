@@ -6,11 +6,6 @@ Individual GeneticAlgorithm::Perform() {
 	// evaluate initialPopulation FIXME
 	Individual bestIndividual = initialPopulation.GetBestIndividual();
 
-	int i = 0;
-	do {
-
-	} while (i < GENERATION_NUMBER);
-
 	for (int i = 0; i < GENERATION_NUMBER; ++i) {
 		Population currentPopulation = Reproduce(initialPopulation);
 

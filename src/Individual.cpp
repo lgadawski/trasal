@@ -1,5 +1,9 @@
 #include "Individual.h"
 
+Individual::Individual(vector<int>& mapa){
+
+}
+
 long Individual::GetLength() {
 	long length = 0;
 	for(list<City>::iterator it = path.begin(); it != path.end(); ++it) {

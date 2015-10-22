@@ -27,7 +27,6 @@ private:
 public:
 	typedef pair<City, City> pair_of_cityies;
 
-
 	Map() :
 			mapSize(0), num_bits(0) {
 	}

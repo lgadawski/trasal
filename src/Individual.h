@@ -5,7 +5,7 @@
 #include <iterator>
 #include <boost/dynamic_bitset.hpp>
 #include "City.h"
-
+#include "Map.h"
 using namespace std;
 
 // osobnik, lista miast jako jeden stan
@@ -13,6 +13,7 @@ class Individual {
 private:
 	list<City> path;
 public:
+	Individual(vector<int>& mapa);
 	Individual& Crossover(Individual&);
 	Individual& Mutate();
 

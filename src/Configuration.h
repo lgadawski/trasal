@@ -1,24 +1,22 @@
 #ifndef CONFIGURATION_H
 #define CONFIGURATION_H
 
-#include <string>
+//#include <string>
 #include <iostream>
 #include <fstream>
 #include "Map.h"
-using namespace std;
 
-const string SEPARATOR = "=";
-const string POP_SIZE = "population_size";
-const string PROP_OF_CROSS = "propability_of_crossover";
-const string PROP_OF_MUT = "propability_of_mutation";
+const std::string SEPARATOR = "=";
+const std::string POP_SIZE = "population_size";
+const std::string PROP_OF_CROSS = "propability_of_crossover";
+const std::string PROP_OF_MUT = "propability_of_mutation";
 
 class Configuration {
-
 private:
 	int populationSize;
 	double propabilityOfCrossover;
 	double propabilityOfMutation;
-	static vector<int> parseIntTabLine(string line);
+	static std::vector<int> parseIntTabLine(std::string line);
 public:
 	Configuration() :
 		populationSize(50),
@@ -38,10 +36,15 @@ public:
 	void SetPropabilityOfCrossover(double poc) { propabilityOfCrossover = poc; }
 	void SetPropabilityOfMutation(double pom) { propabilityOfMutation = pom; }
 
-	static Configuration& ReadFromFile(string file_name);
+	static Configuration& ReadFromFile(std::string file_name);
 
-	static bool WriteMapToFile(string path, Map& m);
-	static shared_ptr<Map> ReadMapFromFile(string path);
+	static bool WriteMapToFile(std::string path, Map& m);
+	static std::shared_ptr<Map> ReadMapFromFile(std::string path);
+	void print() {
+		std::cout << "popultion size: " << GetPopulationSize() << std::endl;
+		std::cout << "propability of crossover: " << GetPropabilityOfCrossover() << std::endl;
+		std::cout << "propability of mutation: " << GetPropabilityOfMutation() << std::endl;
+	}
 };
 
 #endif

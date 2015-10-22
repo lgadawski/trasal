@@ -1,7 +1,6 @@
 #include "Configuration.h"
-#include "Map.h"
-#include <fstream>
 #include <sstream>
+
 using namespace std;
 
  Configuration& Configuration::ReadFromFile(string file_name){

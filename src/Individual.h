@@ -5,19 +5,24 @@
 #include <iterator>
 #include <boost/dynamic_bitset.hpp>
 #include "City.h"
+#include "Map.h"
 
-using namespace std;
-
-// osobnik, lista miast jako jeden stan
 class Individual {
 private:
-	list<City> path;
+	std::list<City> path;
+	Map map;
+	int length = -1;
+
 public:
+//	Individual(...?) {} FIXME
 	Individual& Crossover(Individual&);
 	Individual& Mutate();
 
-	long GetLength();
-	list<City>& GetPath() { return path; }
+	int GetLength();
+	std::list<City> GetPath() { return path; }
+	friend bool operator< (Individual &left, Individual &right) {
+		return left.GetLength() < right.GetLength();
+	}
 };
 
 

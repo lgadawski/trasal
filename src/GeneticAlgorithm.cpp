@@ -3,7 +3,7 @@
 Individual GeneticAlgorithm::Perform() {
 	Population initialPopulation(map, conf.GetPopulationSize());
 
-	// evaluate initialPopulation FIXME
+	// evaluate initialPopulation TODO lg
 	Individual bestIndividual = initialPopulation.GetBestIndividual();
 
 	for (int i = 0; i < GENERATION_NUMBER; ++i) {
@@ -12,14 +12,14 @@ Individual GeneticAlgorithm::Perform() {
 		currentPopulation.RandomlyCrossover(conf.GetPropabilityOfCrossover());
 		currentPopulation.RandomlyMutate(conf.GetPropabilityOfMutation());
 
-		// eval currentPopulation FIXME
+		// eval currentPopulation TODO lg
 		initialPopulation = currentPopulation;
 	}
-	// FIXME
+	// TODO
 //	return bestIndividual;
 }
 
 Population& GeneticAlgorithm::Reproduce(Population &population) {
-	// FIXME
+	// TODO lg
 //	return descendant;
 }

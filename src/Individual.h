@@ -20,10 +20,10 @@ private:
 	Map map;
 public:
 
-	Individual(shared_ptr<Map> spm);
+	Individual(shared_ptr<Map> spm);// TODO po
 
-	Individual& Crossover(Individual&);
-	Individual& Mutate();
+	Individual& Crossover(Individual&); // TODO po
+	Individual& Mutate(); // TODO lg
 
 	long int GetLength();
 	std::list<City> GetPath() { return path; }

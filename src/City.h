@@ -12,10 +12,11 @@ private:
 
 
 public:
-	City() {}
+	City():
+		id(-1) {}
 	City(int aid, int num_bits) :
 		id(aid),
-		chromosome(boost::dynamic_bitset<>(num_bits, id)) {}
+		chromosome(boost::dynamic_bitset<>(num_bits, id)) {} // TODO po
 
 	int getId() const {return id;}
 

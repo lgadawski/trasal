@@ -6,6 +6,7 @@ namespace po = boost::program_options;
 #include "Configuration.h"
 #include "Individual.h"
 #include "Map.h"
+#include "GeneticAlgorithm.h"
 
 
 using namespace std;
@@ -14,15 +15,12 @@ int main(int ac, char* av[]) {
 
 	// read configuration file
 	Configuration conf = Configuration::ReadFromFile("conf/app.properties");
+	conf.print();
 
-	cout << "ps: " << conf.GetPopulationSize() << " poc: " << conf.GetPropabilityOfCrossover()
-			<< " pom: " << conf.GetPropabilityOfMutation() << endl;
-
-	const int mapSize = 4;
-
-//	shared_ptr<Map> pmap = Map::ConstructMapOfSize(mapSize, 0, 200);
-
-//	cout << "X: " << pmap->GetMapSize() << " " << pmap->GetNumbBits() << endl;
+//	Map *map = Map::ConstructMapOfSize(4, 0, 200).get();
+//	map->print();
+//	GeneticAlgorithm alg(*map, conf);
+//	alg.Perform();
 
 	//read command line arguments
 	try {

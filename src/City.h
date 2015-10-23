@@ -2,26 +2,30 @@
 #define CITY_H_
 
 #include <boost/dynamic_bitset.hpp>
-
+#include <exception>
 
 // misto reprezentuje gen jako zbiór bitów o wielkości zależnej od ilości miast
 class City {
 private:
 	int id;
-	int num_of_bits;
-	boost::dynamic_bitset<> gen;
+	boost::dynamic_bitset<> chromosome;
+
+
 public:
-	City(){};
+	City() {}
 	City(int aid, int num_bits) :
 		id(aid),
-		num_of_bits(num_bits),
-		gen(boost::dynamic_bitset<>(num_bits, id)){};
+		chromosome(boost::dynamic_bitset<>(num_bits, id)) {}
 
-	int getId()const{return id;};
-	int getNumberOfBits(){return num_of_bits;}
+	int getId() const {return id;}
 
+	std::string getChromosome() const {
+		std::string buffer;
+		boost::to_string(chromosome, buffer);
+
+		return buffer;
+	}
 	friend bool operator< (const City &left, const City &right) { return left.id < right.id; }
 };
-
 
 #endif /* CITY_H_ */

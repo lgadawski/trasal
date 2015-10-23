@@ -1,7 +1,6 @@
 #include "Configuration.h"
-#include "Map.h"
-#include <fstream>
 #include <sstream>
+#include <string>
 using namespace std;
 
  Configuration& Configuration::ReadFromFile(string file_name){
@@ -27,7 +26,7 @@ bool Configuration::WriteMapToFile(string path, Map& m){
 	ofstream ofs(path.c_str());
 	if (ofs.is_open()){
 		cout<<"Otwarte"<<endl;
-//		ofs<<m.toString();
+		ofs<<m.toString();
 	}
 	ofs.close();
 	return true;

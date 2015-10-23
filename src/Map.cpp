@@ -1,5 +1,6 @@
 #include "Map.h"
 #include "City.h"
+#include "Bitutils.h"
 #include <math.h>
 #include <memory>
 #include <set>
@@ -10,7 +11,7 @@ using namespace std;
 void Map::AddCity(int id, int lowestPossibleDistance,
 		int highestPossibleDistance) {
 	//tworze nowe miasto
-	City* cp = new City(id, BitsUtil::GetNumberOfBitsNeedToRepresentValue(id));
+	City* cp = new City(id, bitutils::GetNumberOfBitsNeedToRepresentValue(id));
 	srand(time(0));
 	for(set<City>::iterator it = citySet.begin(); it!= citySet.end(); it++){
 		int distance = (rand()%abs(highestPossibleDistance - lowestPossibleDistance))+lowestPossibleDistance;
@@ -69,4 +70,17 @@ string Map::toString(){
 	vertexes.append(edges);
 //	cout<<"ALL: "<<vertexes;
 	return vertexes;
+}
+
+int Map::getDistance(City& src, City& dest) {
+	auto it = cityDistanceMap.find(pair<City, City>(src, dest));
+	if (it != cityDistanceMap.end()) {
+		return it->second;
+	}
+	it = cityDistanceMap.find(pair<City, City>(dest, src));
+	if (it != cityDistanceMap.end()) {
+		return it->second;
+	}
+
+	throw exception();
 }

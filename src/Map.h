@@ -6,12 +6,10 @@
 #include <iostream>
 #include <algorithm>
 #include <string>
-#include "BitsUtil.h"
+#include <memory>
+
+#include "Bitutils.h"
 #include "City.h"
-
-using namespace std;
-
-
 
 /** klasa reprezentująca mapę miast węzły (mneiasta) są reprezentowane w postaci binarnej.
  * Krawędzie łączące są przechowywa ne w tablicy dwuwymiarowej
@@ -21,43 +19,47 @@ class Map {
 private:
 	int mapSize;
 	int num_bits;
-	map<pair<City, City >, int> cityDistanceMap;
-	set<City> citySet;
+	std::map<std::pair<City, City >, int> cityDistanceMap;
+	std::set<City> citySet;
 	int calcNumOfBitsforIndividual();
 public:
-	typedef pair<City, City> pair_of_cityies;
+	typedef std::pair<City, City> pair_of_cityies;
 
 	Map() :
-			mapSize(0), num_bits(0) {
-	}
+			mapSize(0), num_bits(0) {}
 	Map(int amapSize) :
 			mapSize(amapSize),
-			num_bits(BitsUtil::GetNumberOfBitsNeedToRepresentValue(amapSize-1)) {
+			num_bits(bitutils::GetNumberOfBitsNeedToRepresentValue(amapSize)) {}
+
+	void AddCity(int id, int lowestPossibleDistance, int highestPossibleDistance);
+	int getDistance(City&, City&);
+	int getMapSize() { return mapSize; }
+	int getNumbBits() { return num_bits; }
+
+	static std::shared_ptr<Map>  ConstructMapOfSize(int mapSize,
+													int lowestPossibleDistance,
+													int highestPossibleDistance);
+
+	std::string toString();
+	void print() {
+		std::cout << "map size: " << getMapSize() << std::endl;
+		std::cout << "number of bits needed: " << getNumbBits() << std::endl;
+
+		std::map<std::pair<City, City>, int>::iterator it;
+		for (it = cityDistanceMap.begin(); it != cityDistanceMap.end(); ++it) {
+			std::cout << "src city id: " << it->first.first.getChromosome() ;
+			std::cout << " dest city gen: " << it->first.second.getChromosome();
+			std::cout << " DIST: " << it->second << std::endl;
+		}
 	}
 
-	void AddCity(int id, int lowestPossibleDistance,
-			int highestPossibleDistance);
-	int getMapSize() {
-		return mapSize;
-	}
 
-	int getNumbBits() {
-		return num_bits;
-	}
 	int getSizeInBits(){
 		return getMapSize()*getNumbBits();
 	}
-	static shared_ptr<Map>  ConstructMapOfSize(int mapSize, int lowestPossibleDistance,
-			int highestPossibleDistance);
 
-	string toString();
-
-	const set<City>& getCitySet() const {
+	const std::set<City>& getCitySet() const {
 		return citySet;
-	}
-
-	void setCitySet(const set<City>& citySet) {
-		this->citySet = citySet;
 	}
 };
 

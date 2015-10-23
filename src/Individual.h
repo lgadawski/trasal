@@ -4,8 +4,9 @@
 #include <list>
 #include <iterator>
 #include <boost/dynamic_bitset.hpp>
-#include "Map.h"
 #include "City.h"
+#include "Map.h"
+
 
 
 using namespace std;
@@ -13,9 +14,10 @@ using namespace std;
 // osobnik, lista miast jako jeden stan
 class Individual {
 private:
-
-	list<City> city_path;
+	std::list<City> path;
+	int length = -1;
 	boost::dynamic_bitset<> binary_repr;
+	Map map;
 public:
 
 	Individual(shared_ptr<Map> spm);
@@ -23,8 +25,11 @@ public:
 	Individual& Crossover(Individual&);
 	Individual& Mutate();
 
-	long GetLength();
-	list<City>& GetPath() { return city_path; }
+	long int GetLength();
+	std::list<City> GetPath() { return path; }
+	friend bool operator< (Individual &left, Individual &right) {
+		return left.GetLength() < right.GetLength();
+	}
 };
 
 

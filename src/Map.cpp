@@ -17,10 +17,10 @@ void Map::AddCity(int id, int lowestPossibleDistance,
 		City existing_city = *it;
 		cityDistanceMap.insert(pair<pair_of_cityies, int>(pair_of_cityies(*cp, existing_city),distance));
 	}
-
 	citySet.insert(*cp);
 
 }
+
 
 shared_ptr<Map> Map::ConstructMapOfSize(int mapSize, int lowestPossibleDistance = 0, int highestPossibleDistance = 200) {
 	shared_ptr<Map> pmap(new Map(mapSize));

@@ -33,8 +33,8 @@ int main(int ac, char* av[]) {
 	    po::options_description desc("Allowed options");
 	    desc.add_options()
 	      	("help", "produce help message")
-	        ("i", po::value<string>(), "this option specifies input file name")
-	        ("o", po::value<string>(), "this option specifies output file name")
+	        ("input, i", po::value<string>(), "this option specifies input file name")
+	        ("output, o", po::value<string>(), "this option specifies output file name")
 			("random", po::value<int>(),"set random graph generation")
 			("test", "testing option")
 	    ;
@@ -49,16 +49,19 @@ int main(int ac, char* av[]) {
 	    }
 
 	    if(vm.count("test")){
-	    	cout<< "Starting testing"<<"\n";
-	    	shared_ptr<Map> pm = Configuration::ReadMapFromFile("conf/mapa.txt");
+	    	cout<< "\nStarting testing"<<"\n";
+//	    	shared_ptr<Map> pm = Configuration::ReadMapFromFile("conf/mapa.txt");
 
 
-//	    	shared_ptr<Map> pmap(Map::ConstructMapOfSize(6, 10, 500));
-//	    	if(pmap){
-//	    		shared_ptr<Map> sp_map(pmap);
-//	    		cout<<sp_map->toString()<<endl;
+	    	shared_ptr<Map> pmap(Map::ConstructMapOfSize(6, 10, 500));
+	    	if(pmap){
+	    		shared_ptr<Map> sp_map(pmap);
+	    		cout<<sp_map->toString()<<endl;
+	    		//testy losowej generacji individuala z mapy
+	    		shared_ptr<Individual> sp_ind(new Individual(sp_map));
+	    		//testy zapisu do pliku
 //	    		Configuration::WriteMapToFile("conf/mapa.txt",*sp_map);
-//	    	}
+	    	}
 
 	    	return 0;
 	    }

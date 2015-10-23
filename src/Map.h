@@ -7,7 +7,7 @@
 #include <algorithm>
 #include <string>
 #include "BitsUtil.h"
-#include "Individual.h"
+#include "City.h"
 
 using namespace std;
 
@@ -19,11 +19,11 @@ using namespace std;
  */
 class Map {
 private:
-
 	int mapSize;
 	int num_bits;
 	map<pair<City, City >, int> cityDistanceMap;
 	set<City> citySet;
+	int calcNumOfBitsforIndividual();
 public:
 	typedef pair<City, City> pair_of_cityies;
 
@@ -32,22 +32,33 @@ public:
 	}
 	Map(int amapSize) :
 			mapSize(amapSize),
-			num_bits(BitsUtil::GetNumberOfBitsNeedToRepresentValue(amapSize)) {
+			num_bits(BitsUtil::GetNumberOfBitsNeedToRepresentValue(amapSize-1)) {
 	}
 
 	void AddCity(int id, int lowestPossibleDistance,
 			int highestPossibleDistance);
-	int GetMapSize() {
+	int getMapSize() {
 		return mapSize;
 	}
-	int GetNumbBits() {
+
+	int getNumbBits() {
 		return num_bits;
 	}
-
+	int getSizeInBits(){
+		return getMapSize()*getNumbBits();
+	}
 	static shared_ptr<Map>  ConstructMapOfSize(int mapSize, int lowestPossibleDistance,
 			int highestPossibleDistance);
 
 	string toString();
+
+	const set<City>& getCitySet() const {
+		return citySet;
+	}
+
+	void setCitySet(const set<City>& citySet) {
+		this->citySet = citySet;
+	}
 };
 
 #endif /* MAP_H_ */

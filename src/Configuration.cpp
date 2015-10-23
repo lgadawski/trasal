@@ -27,7 +27,7 @@ bool Configuration::WriteMapToFile(string path, Map& m){
 	ofstream ofs(path.c_str());
 	if (ofs.is_open()){
 		cout<<"Otwarte"<<endl;
-		ofs<<m.toString();
+//		ofs<<m.toString();
 	}
 	ofs.close();
 	return true;
@@ -63,14 +63,14 @@ vector<int> Configuration::parseIntTabLine(string line){
 shared_ptr<Map> Configuration::ReadMapFromFile(string path){
 	ifstream ifs(path.c_str());
 	if(ifs.is_open()){
-		//pierwsza linia
+		//pierwsza linia, ta z miastami
 		unique_ptr<char> abuf(new char[512]);
 		ifs.getline(abuf.get(), 512);
 		string firstLine(abuf.get());
 
 		vector<int> v = parseIntTabLine(firstLine);
 
-		//reszta linii
+		//reszta linii, czymi krawędzie, 1krawedz == 1 linia
 		vector<vector <int> > edges;
 		while(!ifs.eof()){
 			unique_ptr<char> lbuf(new char[64]);

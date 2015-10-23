@@ -4,21 +4,27 @@
 #include <list>
 #include <iterator>
 #include <boost/dynamic_bitset.hpp>
-#include "City.h"
 #include "Map.h"
+#include "City.h"
+
+
 using namespace std;
 
 // osobnik, lista miast jako jeden stan
 class Individual {
 private:
-	list<City> path;
+
+	list<City> city_path;
+	boost::dynamic_bitset<> binary_repr;
 public:
-	Individual(vector<int>& mapa);
+
+	Individual(shared_ptr<Map> spm);
+
 	Individual& Crossover(Individual&);
 	Individual& Mutate();
 
 	long GetLength();
-	list<City>& GetPath() { return path; }
+	list<City>& GetPath() { return city_path; }
 };
 
 

@@ -4,7 +4,7 @@
 using namespace boost;
 using namespace std;
 
-Individual::Individual(shared_ptr<Map> spm){
+Individual::Individual(const shared_ptr<Map> spm){
 	int num_bit_per_city = spm->getNumbBits();
 	int size = spm->getMapSize();
 	// nie wiem jak miałbym w losowej kolejnosci generowac miasta do osobnika,
@@ -70,31 +70,40 @@ optional<shared_ptr<Individual>> Individual::RandomlyMutate(const double mutateP
 	int propabilityInPercents = mutatePropability * 100;
 	cout << "mutatate prop: " << propabilityInPercents << " % " << endl;
 
-	typedef dynamic_bitset<>::size_type size_type;
 	auto new_chromosome = boost::dynamic_bitset<>(binary_repr);
-	shared_ptr<Individual> new_individual = Individual();
+	shared_ptr<Individual> new_individual(new Individual());
 	do {
-		size_type first_idx = new_chromosome.find_first();
-		size_type current_idx = first_idx;
-		while (current_idx != dynamic_bitset<>::npos) {
-			cout << "current idx: " << current_idx << " ,";
+		for (int i = 0; i < new_chromosome.size(); ++i) {
+			cout << "current idx: " << i << endl;
 			if (randomutils::RandBetween(0, 100) < propabilityInPercents) {
 				cout << "#mutate#" << endl;
-				new_chromosome[current_idx].flip();
+				new_chromosome[i].flip();
 			}
-			current_idx = new_chromosome.find_next(current_idx);
 		}
-		new_individual = Individual(new_chromosome, map);
+		new_individual = shared_ptr<Individual>(new Individual(new_chromosome, map));
 		if (new_chromosome == binary_repr) {
 			// none bits mutated, so no new individual has been created
 			return none;
 		}
 	} while (!IsCorrectIndividual(new_individual));
 
-	return optional(new_individual);
+	return optional<shared_ptr<Individual>>(new_individual);
 }
 
-static bool IsCorrectIndividual(std::shared_ptr<Individual> new_individual) {
+bool Individual::IsCorrectIndividual(const shared_ptr<Individual> new_individual) {
 	// TODO sprawdzenie poprawności osobnika
-	return false;
+	return true;
+}
+
+void Individual::SetBinaryRepr(string repr) {
+	binary_repr = dynamic_bitset<>(repr);
+}
+
+int main() {
+	shared_ptr<Map> map = shared_ptr<Map>(Map::ConstructMapOfSize(4, 1, 4));
+	Individual i(map);
+	i.SetBinaryRepr("00000111110000011111");
+	cout << "binary repr: " << i.GetBinaryReprezentation() << endl;
+	auto mutant = i.RandomlyMutate(0.5);
+	cout << endl << "binary repr: " << mutant.get().get()->GetBinaryReprezentation() << endl;
 }

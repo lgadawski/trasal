@@ -3,6 +3,7 @@ namespace po = boost::program_options;
 
 #include <memory>
 #include <iostream>
+#include <stdlib.h>
 #include "Configuration.h"
 #include "Individual.h"
 #include "Map.h"
@@ -12,6 +13,10 @@ namespace po = boost::program_options;
 using namespace std;
 
 int main(int ac, char* av[]) {
+
+}
+
+int main2(int ac, char* av[]) {
 
 	// read configuration file
 	Configuration conf = Configuration::ReadFromFile("conf/app.properties");

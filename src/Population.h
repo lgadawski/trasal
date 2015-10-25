@@ -1,24 +1,24 @@
 #ifndef POPULATION_H_
 #define POPULATION_H_
 
+#include <boost/optional.hpp>
 #include "Individual.h"
 
 class Population {
 private:
 	std::set<Individual> individuals;
-	Map map;
+	std::set<Individual> mutatedIndividuals;
+	std::shared_ptr<Map> map;
 	int populationSize;
 public:
-	Population(Map amap, int apopSize);
+	Population(std::shared_ptr<Map> amap, int apopSize);
 
-	void RandomlyCrossover(int crossoverPropability);
-	void RandomlyMutate(int mutatePropability);
+	void RandomlyCrossover(const double crossoverPropability);
+	void RandomlyMutate(const double mutatePropability);
 
 	Individual GetBestIndividual();
 
-	int GetPopulationSize() {
-		return populationSize;
-	}
+	int GetPopulationSize() const { return populationSize; }
 };
 
 

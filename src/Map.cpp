@@ -12,9 +12,8 @@ void Map::AddCity(int id, int lowestPossibleDistance,
 		int highestPossibleDistance) {
 	//tworze nowe miasto
 	City* cp = new City(id, bitutils::GetNumberOfBitsNeedToRepresentValue(id));
-	srand(time(0));
 	for(set<City>::iterator it = citySet.begin(); it!= citySet.end(); it++){
-		int distance = (rand()%abs(highestPossibleDistance - lowestPossibleDistance))+lowestPossibleDistance;
+		int distance = randomutils::RandBetween(lowestPossibleDistance, highestPossibleDistance);
 		City existing_city = *it;
 		cityDistanceMap.insert(pair<pair_of_cityies, int>(pair_of_cityies(*cp, existing_city),distance));
 	}
@@ -72,7 +71,7 @@ string Map::toString(){
 	return vertexes;
 }
 
-int Map::getDistance(City& src, City& dest) {
+int Map::getDistance(const City& src, const City& dest) const {
 	auto it = cityDistanceMap.find(pair<City, City>(src, dest));
 	if (it != cityDistanceMap.end()) {
 		return it->second;

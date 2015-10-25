@@ -9,7 +9,7 @@
 
 class GeneticAlgorithm {
 private:
-	Map map;
+	std::shared_ptr<Map> map;
 	Configuration conf;
 
 	GeneticAlgorithm() { throw std::exception(); }
@@ -18,13 +18,13 @@ private:
 	const int GENERATION_NUMBER = 100;
 
 public:
-	GeneticAlgorithm(Map& amap, Configuration& aconf) :
+	GeneticAlgorithm(shared_ptr<Map> amap, Configuration& aconf) :
 		map(amap),
 		conf(aconf) {}
 
 	Individual Perform();
 	Population& Reproduce(Population &population);
-	Map GetMap() { return map; }
+	shared_ptr<Map> GetMap() { return map; }
 	Configuration GetConfiguration() { return conf; }
 };
 

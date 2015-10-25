@@ -11,8 +11,9 @@
 #include "Bitutils.h"
 #include "City.h"
 
-/** klasa reprezentująca mapę miast węzły (mneiasta) są reprezentowane w postaci binarnej.
- * Krawędzie łączące są przechowywa ne w tablicy dwuwymiarowej
+/**
+ * Klasa reprezentująca mapę miast węzły (miasta) są reprezentowane w postaci binarnej.
+ * Krawędzie łączące są przechowywane w mapie.
  *
  */
 class Map {
@@ -32,7 +33,7 @@ public:
 			num_bits(bitutils::GetNumberOfBitsNeedToRepresentValue(amapSize)) {}
 
 	void AddCity(int id, int lowestPossibleDistance, int highestPossibleDistance);
-	int getDistance(City&, City&);
+	int getDistance(const City&, const City&) const;
 	int getMapSize() { return mapSize; }
 	int getNumbBits() { return num_bits; }
 
@@ -47,8 +48,8 @@ public:
 
 		std::map<std::pair<City, City>, int>::iterator it;
 		for (it = cityDistanceMap.begin(); it != cityDistanceMap.end(); ++it) {
-			std::cout << "src city id: " << it->first.first.getChromosome() ;
-			std::cout << " dest city gen: " << it->first.second.getChromosome();
+			std::cout << "src city id: " << it->first.first.getGen() ;
+			std::cout << " dest city gen: " << it->first.second.getGen();
 			std::cout << " DIST: " << it->second << std::endl;
 		}
 	}

@@ -4,10 +4,9 @@
 #include <list>
 #include <iterator>
 #include <boost/dynamic_bitset.hpp>
+#include <boost/optional.hpp>
 #include "City.h"
 #include "Map.h"
-
-
 
 using namespace std;
 
@@ -15,19 +14,21 @@ using namespace std;
 class Individual {
 private:
 	std::list<City> path;
-	int length = -1;
+	mutable int length = -1;
 	boost::dynamic_bitset<> binary_repr;
-	Map map;
+	std::shared_ptr<Map> map;
 public:
 
 	Individual(shared_ptr<Map> spm);// TODO po
 
 	Individual& Crossover(Individual&); // TODO po
-	Individual& Mutate(); // TODO lg
+	boost::optional<std::shared_ptr<Individual>> RandomlyMutate(const double mutatePropability) const;
 
-	long int GetLength();
-	std::list<City> GetPath() { return path; }
-	friend bool operator< (Individual &left, Individual &right) {
+	static bool IsCorrectIndividual(std::shared_ptr<Individual>);
+
+	long int GetLength() const;
+	std::list<City> GetPath() const { return path; }
+	friend bool operator< (const Individual &left, const Individual &right) {
 		return left.GetLength() < right.GetLength();
 	}
 };

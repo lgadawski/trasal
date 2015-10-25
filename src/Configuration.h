@@ -23,14 +23,16 @@ public:
 		propabilityOfCrossover(0.25),
 		propabilityOfMutation(0.01) {}
 
-	Configuration(int apopulationSize, double apropabilityOfCrossover, double aprobalityOfMutation) :
+	Configuration(const int apopulationSize,
+				  const double apropabilityOfCrossover,
+				  const double aprobalityOfMutation) :
 		populationSize(apopulationSize),
 		propabilityOfCrossover(apropabilityOfCrossover),
 		propabilityOfMutation(aprobalityOfMutation) {}
 
-	int GetPopulationSize() { return populationSize; }
-	double GetPropabilityOfCrossover() { return propabilityOfCrossover; }
-	double GetPropabilityOfMutation() { return propabilityOfMutation; }
+	int GetPopulationSize() const { return populationSize; }
+	double GetPropabilityOfCrossover() const { return propabilityOfCrossover; }
+	double GetPropabilityOfMutation() const { return propabilityOfMutation; }
 
 	void SetPopulationSize(int ps) { populationSize = ps; }
 	void SetPropabilityOfCrossover(double poc) { propabilityOfCrossover = poc; }

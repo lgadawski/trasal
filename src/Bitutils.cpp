@@ -10,7 +10,7 @@ std::mt19937 rng(rd());    // random-number engine used (Mersenne-Twister in thi
 
 int bitutils::GetNumberOfBitsNeedToRepresentValue(int val) {
 	int count = 0;
-	while (val > 0) {
+	while (val > 0) { //
 		count++;
 		val = val >> 1;
 	}
@@ -18,8 +18,22 @@ int bitutils::GetNumberOfBitsNeedToRepresentValue(int val) {
 	return count;
 }
 
+std::string bitutils::ToStringBitSet(boost::dynamic_bitset<> bit_set){
+	string result;
+	for(uint i = 0 ; i < bit_set.size() ; i++){
+		if(bit_set[i]){
+			result.append("1");
+		}else{
+			result.append("0");
+		}
+	}
+	return result;
+}
+
 int randomutils::RandBetween(int min, int max) {
 	std::uniform_int_distribution<int> uni(min,max); // guaranteed unbiased
 
 	return uni(rng);
 }
+
+

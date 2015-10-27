@@ -30,7 +30,7 @@ public:
 			mapSize(0), num_bits(0) {}
 	Map(int amapSize) :
 			mapSize(amapSize),
-			num_bits(bitutils::GetNumberOfBitsNeedToRepresentValue(amapSize)) {}
+			num_bits(bitutils::GetNumberOfBitsNeedToRepresentValue(amapSize-1)) {}
 
 	void AddCity(int id, int lowestPossibleDistance, int highestPossibleDistance);
 	int getDistance(const City&, const City&) const;

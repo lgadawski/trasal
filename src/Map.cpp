@@ -11,12 +11,15 @@ using namespace std;
 void Map::AddCity(int id, int lowestPossibleDistance,
 		int highestPossibleDistance) {
 	//tworze nowe miasto
-	City* cp = new City(id, bitutils::GetNumberOfBitsNeedToRepresentValue(id));
+	City* cp = new City(id, bitutils::GetNumberOfBitsNeedToRepresentValue(mapSize -1));
 	for(set<City>::iterator it = citySet.begin(); it!= citySet.end(); it++){
 		int distance = randomutils::RandBetween(lowestPossibleDistance, highestPossibleDistance);
 		City existing_city = *it;
 		cityDistanceMap.insert(pair<pair_of_cityies, int>(pair_of_cityies(*cp, existing_city),distance));
 	}
+
+
+
 	citySet.insert(*cp);
 
 }
@@ -24,6 +27,7 @@ void Map::AddCity(int id, int lowestPossibleDistance,
 
 shared_ptr<Map> Map::ConstructMapOfSize(int mapSize, int lowestPossibleDistance = 0, int highestPossibleDistance = 200) {
 	shared_ptr<Map> pmap(new Map(mapSize));
+
 	for (int var = 0; var < mapSize; ++var) {
 		pmap->AddCity(var, lowestPossibleDistance, highestPossibleDistance);
 	}

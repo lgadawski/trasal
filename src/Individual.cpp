@@ -76,6 +76,7 @@ boost::optional<std::shared_ptr<pair<Individual,Individual>>> Individual::Random
 				bool bit1 = this->GetBit(i);
 				bool bit2 = second.GetBit(i);
 				if(i<=separateIndex){
+					//zamiana bitow
 					new_individual_1->SetBit(i, bit2);
 					new_individual_2->SetBit(i, bit1);
 				}

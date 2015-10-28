@@ -16,7 +16,7 @@ Individual GeneticAlgorithm::Perform() {
 		initialPopulation = currentPopulation;
 	}
 	// TODO
-//	return bestIndividual;
+	return bestIndividual;
 }
 
 Population& GeneticAlgorithm::Reproduce(Population &population) {

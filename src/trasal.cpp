@@ -53,17 +53,17 @@ int main2(int ac, char* av[]) {
 
 	    if(vm.count("test")){
 	    	cout<< "\nStarting testing"<<"\n";
-//	    	shared_ptr<Map> pm = Configuration::ReadMapFromFile("conf/mapa.txt");
+	    	shared_ptr<Map> pm = Configuration::ReadMapFromFile("conf/mapa.txt");
 
 
 	    	shared_ptr<Map> pmap(Map::ConstructMapOfSize(6, 10, 500));
 	    	if(pmap){
 	    		shared_ptr<Map> sp_map(pmap);
-	    		cout<<sp_map->toString()<<endl;
+	    		cout<<sp_map->ToString()<<endl;
 	    		//testy losowej generacji individuala z mapy
 	    		shared_ptr<Individual> sp_ind(new Individual(sp_map));
 	    		//testy zapisu do pliku
-//	    		Configuration::WriteMapToFile("conf/mapa.txt",*sp_map);
+	    		Configuration::WriteMapToFile("conf/mapa.txt",*sp_map);
 	    	}
 
 	    	return 0;
@@ -91,7 +91,7 @@ int main2(int ac, char* av[]) {
 
 	        	// here saving solution to output file
         	}else{
-        		shared_ptr<Map> pm = Configuration::ReadMapFromFile(vm["i"].as<string>());
+//        		shared_ptr<Map> pm = Configuration::ReadMapFromFile(vm["i"].as<string>());
         	}
 	    } else {
 	        cout << "Input or output file was not set and they are mandatory for this program to work.\n";

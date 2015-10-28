@@ -8,33 +8,17 @@
 class City {
 private:
 	int id;
-
-	boost::dynamic_bitset<> gen;
-
 public:
-	City():
-		id(-1) {}
-	City(int aid, int num_bits) :
-		id(aid),
-		gen(boost::dynamic_bitset<>(num_bits, id)) {}
+	City(int idd = -1):
+		id(idd){}
+	City(const City & copy):
+		id(copy.getId()){}
 
 	int getId() const {return id;}
-	int getNumOfBits() const {return gen.size();}
-	std::string getGen() const {
-		std::string buffer;
-		boost::to_string(gen, buffer);
-
-		return buffer;
-	}
-	bool getGenBit(int bitNr) const {return gen[/*gen.size()-1-*/bitNr];}
-
-	std::string toStringBinary(){
-		std::string buffer;
-		boost::to_string(gen, buffer);
-		return buffer;
-	}
-
+	std::string ToString();
 	friend bool operator< (const City &left, const City &right) { return left.id < right.id; }
+	friend bool operator== (const City &left, const City &right) {return left.id == right.id; }
+	friend std::ostream & operator<< (std::ostream &os, const City &c){ return os<<c.getId(); }
 };
 
 #endif /* CITY_H_ */

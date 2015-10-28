@@ -13,32 +13,24 @@ using namespace std;
 // osobnik, lista miast jako jeden stan
 class Individual {
 private:
-	std::list<City> path;
-	mutable int length = -1;
-	boost::dynamic_bitset<> binary_repr;
+	std::vector<City> path;
 	std::shared_ptr<Map> map;
+	mutable int length = -1;
 
+	bool ContainsCity(City c);
 public:
 	Individual() {} // for testing purposes
-	Individual(boost::dynamic_bitset<> chromosome, const std::shared_ptr<Map> amap) :
-		binary_repr(chromosome),
-		map(amap) {}
+	Individual(const std::shared_ptr<Map> amap);
 	Individual(const Individual & copy) :
-		binary_repr(copy.binary_repr),
 		map(copy.map),
 		length(copy.length)
 	{
-		cout<<"con - "<<bitutils::ToStringBitSet(this->binary_repr)<<endl;
-		this->path = list<City>(copy.GetPath());
-		for(std::list<City>::iterator it = path.begin(); it != path.end() ; it++){
-					cout<<it->getId()<<endl;
-		}
-
+		this->path = vector<City>(copy.GetPath());
 		std::copy(copy.path.begin(),copy.path.end(), this->path.begin());
 	}
-	Individual(const shared_ptr<Map> spm);// TODO po
 
-	boost::optional<std::shared_ptr<pair<Individual,Individual>>> RandomlyCrossover(const double crossoverPprobability , Individual second); // TODO po
+
+	boost::optional<pair<Individual,Individual>> RandomlyCrossover(const double crossoverPprobability , Individual second); // TODO po
 
 	boost::optional<std::shared_ptr<Individual>> RandomlyMutate(const double mutatePropability) const;
 
@@ -46,21 +38,28 @@ public:
 
 	long int GetLength() const;
 
-	std::list<City> GetPath() const { return path; }
+	std::vector<City> GetPath() const { return path; }
 
-	boost::dynamic_bitset<> GetBinaryReprezentation() const { return binary_repr; }
-	bool GetBit(int bitNr) const { return binary_repr[bitNr]; }
-	void SetBit(int bitNr, bool value){binary_repr[bitNr]=value;}
 	// for testing purposes
-	void SetBinaryRepr(std::string);
-	void SetBinaryRepr(boost::dynamic_bitset<> repr);
 	friend bool operator< (const Individual &left, const Individual &right) {
 		return left.GetLength() < right.GetLength();
 	}
+	friend ostream & operator<< (ostream &os, const Individual &ind){
+		int size = ind.path.size()-1;
+		for(int i = 0 ; i < size ; i++){
+			os<<ind.path[i]<<"->";
+		}
+		if(!ind.path.empty())
+			os<<ind.path.back();
+		return os;
+	}
 
 
-	void SetPath(const std::list<City>& path){this->path = path;}
-	void SetPath(boost::dynamic_bitset<> binary, int numOfBitsPerCity);
+
+	void SetPath(const std::vector<City>& path){this->path = path;}
+	void SetCity(int position, City c){path[position] = c;};
+	City GetCity(int position){return path[position];};
+	void resetPath();
 };
 
 

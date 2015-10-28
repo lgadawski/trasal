@@ -11,7 +11,6 @@ private:
 	std::shared_ptr<Map> map;
 	int populationSize;
 
-	boost::optional<std::pair<Individual , Individual> > crossoverIndividualsPair(pair<Individual, Individual> indPair, const double crossoverProbability);
 public:
 	Population(std::shared_ptr<Map> amap, int apopSize);
 

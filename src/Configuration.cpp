@@ -26,7 +26,7 @@ bool Configuration::WriteMapToFile(string path, Map& m){
 	ofstream ofs(path.c_str());
 	if (ofs.is_open()){
 		cout<<"Otwarte"<<endl;
-		ofs<<m.toString();
+		ofs<<m.ToString();
 	}
 	ofs.close();
 	return true;
@@ -62,13 +62,16 @@ vector<int> Configuration::parseIntTabLine(string line){
 shared_ptr<Map> Configuration::ReadMapFromFile(string path){
 	ifstream ifs(path.c_str());
 	if(ifs.is_open()){
+		shared_ptr<Map> spm(new Map());
 		//pierwsza linia, ta z miastami
 		unique_ptr<char> abuf(new char[512]);
 		ifs.getline(abuf.get(), 512);
 		string firstLine(abuf.get());
 
 		vector<int> v = parseIntTabLine(firstLine);
-
+		for(int i = 0; i < v.size() ; i++){
+			spm->AddCity(City(v[i]));
+		}
 		//reszta linii, czymi krawędzie, 1krawedz == 1 linia
 		vector<vector <int> > edges;
 		while(!ifs.eof()){
@@ -77,8 +80,17 @@ shared_ptr<Map> Configuration::ReadMapFromFile(string path){
 			string line(lbuf.get());
 			edges.push_back(parseIntTabLine(line));
 		}
+		for(int i = 0 ; i < edges.size() ; i++){
+			if(!edges[i].empty()){
+				cout<<edges[i][0]<<edges[i][1]<<edges[i][2]<<endl;
+				pair<City, City> cp(edges[i][0],edges[i][1]);
+				pair<pair<City, City>, int> edge(cp, edges[i][2]);
+				spm->AddEdge(edge);
+			}
 
-		return shared_ptr<Map>(new Map(/*v, edges*/));
+		}
+
+		return spm;
 	}else{
 		cout<<"Unnable to open file to read."<<endl;
 	}

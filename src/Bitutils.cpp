@@ -1,7 +1,10 @@
 #include "Bitutils.h"
+#include "City.h"
+#include <iostream>
 #include <random>
 #include <exception>
 #include <memory>
+#include <vector>
 
 using namespace std;
 
@@ -34,6 +37,17 @@ int randomutils::RandBetween(int min, int max) {
 	std::uniform_int_distribution<int> uni(min,max); // guaranteed unbiased
 
 	return uni(rng);
+}
+
+
+void printutils::printPath(std::vector<City> & path){
+	int size = path.size();
+	for(int i = 0 ; i < size-1 ; ++i){
+		std::cout<<path[i]<<"->";
+	}
+	if(!path.empty()){
+		cout<<path.back()<<endl;
+	}
 }
 
 

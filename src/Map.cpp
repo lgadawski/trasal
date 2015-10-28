@@ -8,19 +8,18 @@
 
 using namespace std;
 
-void Map::AddCity(int id, int lowestPossibleDistance,
+void Map::AddRandomCity(int id, int lowestPossibleDistance,
 		int highestPossibleDistance) {
 	//tworze nowe miasto
-	City* cp = new City(id, bitutils::GetNumberOfBitsNeedToRepresentValue(mapSize -1));
+	City cp = City(id);
 	for(set<City>::iterator it = citySet.begin(); it!= citySet.end(); it++){
 		int distance = randomutils::RandBetween(lowestPossibleDistance, highestPossibleDistance);
-		City existing_city = *it;
-		cityDistanceMap.insert(pair<pair_of_cityies, int>(pair_of_cityies(*cp, existing_city),distance));
+		cityDistanceMap.insert(pair<pair_of_cityies, int>(pair_of_cityies(cp, *it), distance));
 	}
 
 
 
-	citySet.insert(*cp);
+	citySet.insert(cp);
 
 }
 
@@ -29,12 +28,12 @@ shared_ptr<Map> Map::ConstructMapOfSize(int mapSize, int lowestPossibleDistance 
 	shared_ptr<Map> pmap(new Map(mapSize));
 
 	for (int var = 0; var < mapSize; ++var) {
-		pmap->AddCity(var, lowestPossibleDistance, highestPossibleDistance);
+		pmap->AddRandomCity(var, lowestPossibleDistance, highestPossibleDistance);
 	}
 	return pmap;
 }
 
-string Map::toString(){
+string Map::ToString(){
 	string vertexes;
 	stringstream ss;
 	for(set<City>::iterator it = citySet.begin() ; it != citySet.end() ; it++){
@@ -75,15 +74,7 @@ string Map::toString(){
 	return vertexes;
 }
 
-int Map::getDistance(const City& src, const City& dest) const {
-	auto it = cityDistanceMap.find(pair<City, City>(src, dest));
-	if (it != cityDistanceMap.end()) {
-		return it->second;
-	}
-	it = cityDistanceMap.find(pair<City, City>(dest, src));
-	if (it != cityDistanceMap.end()) {
-		return it->second;
-	}
-
-	throw exception();
+int Map::getDistanceBetween(const City & c1, const City & c2){
+	return this->cityDistanceMap.find(pair<City,City>(c1,c2))->second;
 }
+

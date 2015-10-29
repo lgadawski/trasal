@@ -1,6 +1,7 @@
 #include "Individual.h"
 #include "Configuration.h"
 #include <math.h>
+#include <algorithm>
 
 using namespace boost;
 using namespace std;
@@ -24,7 +25,6 @@ Individual::Individual(const shared_ptr<Map> spm){
 		cities_copy.erase(i);//FIXME
 		cout<<endl;
 	}
-
 }
 
 long Individual::GetLength() const {
@@ -99,39 +99,38 @@ boost::optional<pair<Individual,Individual>> Individual::RandomlyCrossover(const
 }
 
 bool Individual::ContainsCity(City c){
-	for(int i = 0 ; i < path.size() ; i++){
-		if(c == path[i])
-			return true;
-	}
+	for (uint i = 0 ; i < path.size(); i++) if (c == path[i]) return true;
+
 	return false;
 }
 
-optional<shared_ptr<Individual>> Individual::RandomlyMutate(const double mutatePropability) const {
-/*	int propabilityInPercents = mutatePropability * 100;
-	cout << "mutatate prop: " << propabilityInPercents << " % " << endl;
+optional<shared_ptr<Individual>> Individual::RandomlyMutate(double mutatePropability) const {
+	int propabilityInPercents = mutatePropability * 100;
 
-	auto new_chromosome = boost::dynamic_bitset<>(binary_repr);
-	shared_ptr<Individual> new_individual(new Individual());
+	shared_ptr<Individual> new_individual(new Individual(*this));
+	uint path_size = path.size();
 	do {
-		for (uint i = 0; i < new_chromosome.size(); ++i) {
+		for (uint i = 0; i < path_size; ++i) {
 			cout << "current idx: " << i << endl;
 			if (randomutils::RandBetween(0, 100) < propabilityInPercents) {
-				cout << "#mutate#" << endl;
-				new_chromosome[i].flip();
+				auto first_idx = randomutils::RandBetween(0, path_size - 1);
+				auto sec_idx = randomutils::RandBetween(0, path_size - 1);
+				// jeśli drugi zostałby wylosowany tym samym
+				while (first_idx == sec_idx) sec_idx = randomutils::RandBetween(0, path_size - 1);
+
+				cout << "#mutate#" << " first_idx: " << first_idx << " second_idx: " << sec_idx << endl;
+
+				new_individual.get()->swap_path(first_idx, sec_idx);
 			}
 		}
-		new_individual = shared_ptr<Individual>(new Individual(new_chromosome, map));
-		if (new_chromosome == binary_repr) {
+		if (this == new_individual.get()) {
 			// none bits mutated, so no new individual has been created
 			return none;
 		}
 	} while (!IsCorrectIndividual(new_individual));
 
 	return optional<shared_ptr<Individual>>(new_individual);
-	return none;*/
 }
-
-
 
 bool Individual::IsCorrectIndividual(const shared_ptr<Individual> new_individual) {
 	// TODO sprawdzenie poprawności osobnika
@@ -147,6 +146,7 @@ void Individual::resetPath(){
 
 int main() {
 	shared_ptr<Map> map = shared_ptr<Map>(Configuration::ReadMapFromFile("conf/mapa.txt"));
+//	shared_ptr<Map> map = shared_ptr<Map>(Map::ConstructMapOfSize(4, 1, 10));
 	map->print();
 	Individual i1(map);
 	cout<<"///////////////////////////"<<endl;
@@ -159,6 +159,7 @@ int main() {
 	cout << endl << "child 1: " << pr.get().first << endl;
 	cout << endl << "child 2: " << pr.get().second << endl;
 
-
-//	cout << endl << "binary repr 2: " << mutant.get().get()->first.GetBinaryReprezentation() << endl;
+	auto mutant = i1.RandomlyMutate(0.5);
+	cout << endl << "parent: " << i1 << endl;
+	cout << endl << "mutant: " << *(mutant.get()) << endl;
 }

@@ -1,10 +1,10 @@
 #include "Map.h"
 #include "City.h"
-#include "Bitutils.h"
 #include <math.h>
 #include <memory>
 #include <set>
 #include <sstream>
+#include "utils.h"
 
 using namespace std;
 
@@ -16,13 +16,8 @@ void Map::AddRandomCity(int id, int lowestPossibleDistance,
 		int distance = randomutils::RandBetween(lowestPossibleDistance, highestPossibleDistance);
 		cityDistanceMap.insert(pair<pair_of_cityies, int>(pair_of_cityies(cp, *it), distance));
 	}
-
-
-
 	citySet.insert(cp);
-
 }
-
 
 shared_ptr<Map> Map::ConstructMapOfSize(int mapSize, int lowestPossibleDistance = 0, int highestPossibleDistance = 200) {
 	shared_ptr<Map> pmap(new Map(mapSize));

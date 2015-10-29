@@ -8,8 +8,8 @@
 #include <string>
 #include <memory>
 
-#include "Bitutils.h"
 #include "City.h"
+#include "utils.h"
 
 /**
  * Klasa reprezentująca mapę miast węzły (miasta) są reprezentowane w postaci binarnej.
@@ -40,7 +40,6 @@ public:
 	std::string ToString();
 	int getDistanceBetween(const City & c1, const City & c2);
 	void print() {
-
 		std::cout << "map size: " << getMapSize() << std::endl;
 		std::cout<<"MC:";
 		for(std::set<City>::iterator it = citySet.begin() ; it !=citySet.end() ; it++){

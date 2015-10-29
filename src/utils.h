@@ -1,5 +1,5 @@
-#ifndef BITUTILS_H_
-#define BITUTILS_H_
+#ifndef UTILS_H_
+#define UTILS_H_
 #include <vector>
 #include <boost/dynamic_bitset.hpp>
 #include "City.h"
@@ -17,4 +17,4 @@ namespace randomutils {
 namespace printutils{
 	void printPath(std::vector<City> & path);
 }
-#endif /* BITUTILS_H_ */
+#endif /* UTILS_H_ */

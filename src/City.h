@@ -9,10 +9,8 @@ class City {
 private:
 	int id;
 public:
-	City(int idd = -1):
-		id(idd){}
-	City(const City & copy):
-		id(copy.getId()){}
+	City(int idd = -1) : id(idd) {}
+	City(const City & copy) : id(copy.getId()) {}
 
 	int getId() const {return id;}
 	std::string ToString();

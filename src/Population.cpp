@@ -3,11 +3,16 @@
 using namespace std;
 using namespace boost;
 
-Population::Population(shared_ptr<Map> amap, int apopSize) :
+Population::Population(const shared_ptr<Map> amap, const int apopSize) :
 		map(amap),
 		populationSize(apopSize) {
-	// FIXME
-
+	for (int var = 0; var < populationSize; ++var) {
+		Individual *i = new Individual(map);
+		cout << endl << " d1 " << endl;
+		individuals.insert(*i);
+		cout << endl << " d2 " << endl;
+	}
+	cout << " pop created ";
 }
 
 void Population::RandomlyCrossover(const double crossoverPropability) {
@@ -38,7 +43,6 @@ void Population::RandomlyCrossover(const double crossoverPropability) {
 
 }
 
-
 void Population::RandomlyMutate(const double mutatePropability) {
 	for (set<Individual>::iterator it = individuals.begin(); it != individuals.end(); ++it) {
 		optional<shared_ptr<Individual>> opt = it->RandomlyMutate(mutatePropability);
@@ -49,7 +53,6 @@ void Population::RandomlyMutate(const double mutatePropability) {
 }
 
 Individual Population::GetBestIndividual() {
-	// FIXME
-//	return bestIndividual
+	// first element in set has lowest value due to overloaded < operator
+	return (*(individuals.begin()));
 }
-

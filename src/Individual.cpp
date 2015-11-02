@@ -1,30 +1,24 @@
 #include "Individual.h"
-#include "Configuration.h"
 #include <math.h>
+#include <algorithm>
 
 using namespace boost;
 using namespace std;
 
 Individual::Individual(const shared_ptr<Map> spm){
-	int num_of_cities = spm->getMapSize();
-
 	// tworze kopie miast do wektora.
-	vector<City> cities_copy(num_of_cities);
-	std::copy(spm->getCitySet().begin(), spm->getCitySet().end(), cities_copy.begin());
-
-	cout<<"citCopy";
-	printutils::printPath(cities_copy);//FIXME debug
+	set<City> city_set = spm.get()->getCitySet();
+	vector<City> cities_copy(city_set.begin(), city_set.end());
 
 	while(!cities_copy.empty()){
-		vector<City>::iterator i;
 		int index = randomutils::RandBetween(0,cities_copy.size()-1);
-		i = next(cities_copy.begin(), index);
-		printutils::printPath(cities_copy);
-		path.push_back(*i);
-		cities_copy.erase(i);//FIXME
-		cout<<endl;
+		vector<City>::iterator i = next(cities_copy.begin(), index);
+		City *n = new City(*i);
+		path.push_back(*n);
+		cities_copy.erase(i);
 	}
 
+	cout << " result individual: ";	printutils::printPath(path);
 }
 
 long Individual::GetLength() const {
@@ -33,7 +27,8 @@ long Individual::GetLength() const {
 	for(vector<City>::const_iterator it = path.begin(); it != path.end(); ++it) {
 		vector<City>::const_iterator next_it = ++it;
 		if (next_it != path.end()) {
-			length += map.get()->getDistanceBetween(*it, *next_it);
+			auto dist = map.get()->getDistanceBetween(*it, *next_it);
+			length += dist;
 		}
 	}
 
@@ -72,7 +67,7 @@ boost::optional<pair<Individual,Individual>> Individual::RandomlyCrossover(const
 				cout<<new_individual_2<<endl<<endl;
 			}
 		}
-		for(int i = 0, j =0 ; i<=path.size() ; i++){
+		for(int i = 0; i<=path.size() ; i++){
 			if(i>=lesserSeparateIndex && i<=largerSeparateIndex){	//jezeli jestem na posycji do wymiany kawałka pomiędzy i1 a i2
 				continue;
 			}else{
@@ -99,43 +94,35 @@ boost::optional<pair<Individual,Individual>> Individual::RandomlyCrossover(const
 }
 
 bool Individual::ContainsCity(City c){
-	for(int i = 0 ; i < path.size() ; i++){
-		if(c == path[i])
-			return true;
-	}
+	for (uint i = 0 ; i < path.size(); i++) if (c == path[i]) return true;
+
 	return false;
 }
 
-optional<shared_ptr<Individual>> Individual::RandomlyMutate(const double mutatePropability) const {
-/*	int propabilityInPercents = mutatePropability * 100;
-	cout << "mutatate prop: " << propabilityInPercents << " % " << endl;
+optional<shared_ptr<Individual>> Individual::RandomlyMutate(double mutatePropability) const {
+	int propabilityInPercents = mutatePropability * 100;
 
-	auto new_chromosome = boost::dynamic_bitset<>(binary_repr);
-	shared_ptr<Individual> new_individual(new Individual());
-	do {
-		for (uint i = 0; i < new_chromosome.size(); ++i) {
-			cout << "current idx: " << i << endl;
-			if (randomutils::RandBetween(0, 100) < propabilityInPercents) {
-				cout << "#mutate#" << endl;
-				new_chromosome[i].flip();
-			}
+	shared_ptr<Individual> new_individual(new Individual(*this));
+	uint path_size = path.size();
+	for (uint i = 0; i < path_size; ++i) {
+		cout << "current idx: " << i << endl;
+		if (randomutils::RandBetween(0, 100) < propabilityInPercents) {
+			auto first_idx = randomutils::RandBetween(0, path_size - 1);
+			auto sec_idx = randomutils::RandBetween(0, path_size - 1);
+			// jeśli drugi zostałby wylosowany tym samym
+			while (first_idx == sec_idx) sec_idx = randomutils::RandBetween(0, path_size - 1);
+
+			cout << "#mutate#" << " first_idx: " << first_idx << " second_idx: " << sec_idx << endl;
+
+			new_individual.get()->swap_path(first_idx, sec_idx);
 		}
-		new_individual = shared_ptr<Individual>(new Individual(new_chromosome, map));
-		if (new_chromosome == binary_repr) {
-			// none bits mutated, so no new individual has been created
-			return none;
-		}
-	} while (!IsCorrectIndividual(new_individual));
+	}
+	if (this == new_individual.get()) {
+		// none bits mutated, so no new individual has been created
+		return none;
+	}
 
 	return optional<shared_ptr<Individual>>(new_individual);
-	return none;*/
-}
-
-
-
-bool Individual::IsCorrectIndividual(const shared_ptr<Individual> new_individual) {
-	// TODO sprawdzenie poprawności osobnika
-	return true;
 }
 
 void Individual::resetPath(){
@@ -144,9 +131,8 @@ void Individual::resetPath(){
 	}
 }
 
-
-int main() {
-	shared_ptr<Map> map = shared_ptr<Map>(Configuration::ReadMapFromFile("conf/mapa.txt"));
+int main_() {
+	shared_ptr<Map> map = shared_ptr<Map>(Map::ReadMapFromFile("conf/mapa.txt"));
 	map->print();
 	Individual i1(map);
 	cout<<"///////////////////////////"<<endl;
@@ -160,4 +146,9 @@ int main() {
 	cout << endl << "child 2: " << pr.get().second << endl;
 
 //	cout << endl << "binary repr 2: " << mutant.get().get()->first.GetBinaryReprezentation() << endl;
+	auto mutant = i1.RandomlyMutate(0.5);
+	cout << endl << "parent: " << i1 << endl;
+	cout << endl << "mutant: " << *(mutant.get()) << endl;
+
+	return 0;
 }

@@ -12,7 +12,9 @@ private:
 	int populationSize;
 
 public:
-	Population(std::shared_ptr<Map> amap, int apopSize);
+	Population(const std::shared_ptr<Map> amap, const int apopSize);
+
+	~Population() { std::cout << " ~population"; }
 
 	void RandomlyCrossover(const double crossoverPropability);
 	void RandomlyMutate(const double mutatePropability);

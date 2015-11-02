@@ -8,25 +8,23 @@ namespace po = boost::program_options;
 #include "Individual.h"
 #include "Map.h"
 #include "GeneticAlgorithm.h"
-
+#include "Population.h"
 
 using namespace std;
 
-int main3(int ac, char* av[]) {
+int main(int ac, char* av[]) {
+	Configuration conf = Configuration::ReadFromFile("conf/app.properties");
+	cout << " POPULATION SIZE: " << conf.GetPopulationSize() << endl;
 
+	auto map = shared_ptr<Map>(Map::ConstructMapOfSize(3, 1, 10));
+	cout << endl << " CREATE POPULATION ";
+	Population *p = new Population(map, conf.GetPopulationSize());
+//
+//	cout << endl << "best ind: " << p->GetBestIndividual();
+//	cout << endl << "population size: " << p->GetPopulationSize() << endl;
 }
 
 int main2(int ac, char* av[]) {
-
-	// read configuration file
-	Configuration conf = Configuration::ReadFromFile("conf/app.properties");
-	conf.print();
-
-//	Map *map = Map::ConstructMapOfSize(4, 0, 200).get();
-//	map->print();
-//	GeneticAlgorithm alg(*map, conf);
-//	alg.Perform();
-
 	//read command line arguments
 	try {
 	 	string inputPath, outputPath;
@@ -53,7 +51,7 @@ int main2(int ac, char* av[]) {
 
 	    if(vm.count("test")){
 	    	cout<< "\nStarting testing"<<"\n";
-	    	shared_ptr<Map> pm = Configuration::ReadMapFromFile("conf/mapa.txt");
+	    	shared_ptr<Map> pm = Map::ReadMapFromFile("conf/mapa.txt");
 
 
 	    	shared_ptr<Map> pmap(Map::ConstructMapOfSize(6, 10, 500));
@@ -63,7 +61,7 @@ int main2(int ac, char* av[]) {
 	    		//testy losowej generacji individuala z mapy
 	    		shared_ptr<Individual> sp_ind(new Individual(sp_map));
 	    		//testy zapisu do pliku
-	    		Configuration::WriteMapToFile("conf/mapa.txt",*sp_map);
+	    		Map::WriteMapToFile("conf/mapa.txt",*sp_map);
 	    	}
 
 	    	return 0;

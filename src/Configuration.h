@@ -1,7 +1,6 @@
 #ifndef CONFIGURATION_H
 #define CONFIGURATION_H
 
-//#include <string>
 #include <iostream>
 #include <vector>
 #include <fstream>
@@ -17,10 +16,9 @@ private:
 	int populationSize;
 	double propabilityOfCrossover;
 	double propabilityOfMutation;
-	static std::vector<int> parseIntTabLine(std::string line);
 public:
 	Configuration() :
-		populationSize(50),
+		populationSize(200),
 		propabilityOfCrossover(0.25),
 		propabilityOfMutation(0.01) {}
 
@@ -41,8 +39,6 @@ public:
 
 	static Configuration& ReadFromFile(std::string file_name);
 
-	static bool WriteMapToFile(std::string path, Map& m);
-	static std::shared_ptr<Map> ReadMapFromFile(std::string path);
 	void print() {
 		std::cout << "popultion size: " << GetPopulationSize() << std::endl;
 		std::cout << "propability of crossover: " << GetPropabilityOfCrossover() << std::endl;

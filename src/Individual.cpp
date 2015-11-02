@@ -159,6 +159,5 @@ int main() {
 	cout << endl << "child 1: " << pr.get().first << endl;
 	cout << endl << "child 2: " << pr.get().second << endl;
 
-
 //	cout << endl << "binary repr 2: " << mutant.get().get()->first.GetBinaryReprezentation() << endl;
 }

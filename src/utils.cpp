@@ -40,7 +40,7 @@ int randomutils::RandBetween(int min, int max) {
 }
 
 
-void printutils::printPath(std::vector<City> & path){
+void printutils::printPath(const std::vector<City> &path){
 	int size = path.size();
 	for(int i = 0 ; i < size-1 ; ++i){
 		std::cout<<path[i]<<"->";

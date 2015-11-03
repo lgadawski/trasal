@@ -93,8 +93,6 @@ void Map::AddRandomCity(int id, int lowestPossibleDistance, int highestPossibleD
 		cityDistanceMap.insert(pair<pair_of_cityies, int>(pair_of_cityies(*cp, *it), distance));
 	}
 	citySet.insert(*cp);
-
-	cout << endl << " ADDED RANDOM CITY " << endl;
 }
 
 shared_ptr<Map> Map::ConstructMapOfSize(int mapSize, int lowestPossibleDistance = 0, int highestPossibleDistance = 200) {
@@ -150,6 +148,14 @@ string Map::ToString(){
 }
 
 int Map::getDistanceBetween(const City & c1, const City & c2){
-	return this->cityDistanceMap.find(pair<City,City>(c1,c2))->second;
+	auto found = cityDistanceMap.find(pair<City,City>(c1, c2));
+	if (found == cityDistanceMap.end()) {
+		found = cityDistanceMap.find(pair<City,City>(c2, c1));
+		if (found == cityDistanceMap.end()) {
+			throw exception();
+		}
+	}
+
+	return found->second;
 }
 

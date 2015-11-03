@@ -16,12 +16,25 @@ int main(int ac, char* av[]) {
 	Configuration conf = Configuration::ReadFromFile("conf/app.properties");
 	cout << " POPULATION SIZE: " << conf.GetPopulationSize() << endl;
 
-	auto map = shared_ptr<Map>(Map::ConstructMapOfSize(3, 1, 10));
+//	auto map = shared_ptr<Map>(Map::ConstructMapOfSize(3, 1, 10));
+	auto map = shared_ptr<Map>(Map::ReadMapFromFile("conf/mapa.txt"));
+	map.get()->print();
+
+	City c1(0), c2(1);
+	cout << endl << " DIST 0 -> 1 : " << map.get()->getDistanceBetween(c1, c2) << endl;
+
+	Individual i(map);
+	cout << endl << " LENGTH: " << i.GetLength() << endl;
+
 	cout << endl << " CREATE POPULATION ";
 	Population *p = new Population(map, conf.GetPopulationSize());
-//
-//	cout << endl << "best ind: " << p->GetBestIndividual();
-//	cout << endl << "population size: " << p->GetPopulationSize() << endl;
+	for (auto &a : p->GetIndividualList()) {
+		cout << endl << a << " L: " << a.GetLength() << endl;
+	}
+
+	auto best = p->GetBestIndividual();
+	cout << endl << "BEST: " << best;
+	cout << endl << "BEST size: " << best.GetLength() << endl;
 }
 
 int main2(int ac, char* av[]) {

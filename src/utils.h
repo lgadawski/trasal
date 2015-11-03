@@ -15,6 +15,6 @@ namespace randomutils {
 }
 
 namespace printutils{
-	void printPath(std::vector<City> & path);
+	void printPath(const std::vector<City> &path);
 }
 #endif /* UTILS_H_ */

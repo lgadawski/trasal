@@ -24,6 +24,7 @@ private:
 
 	int calcNumOfBitsforIndividual();
 	static std::vector<int> parseIntTabLine(std::string line);
+
 public:
 	typedef std::pair<City, City> pair_of_cityies;
 
@@ -32,7 +33,7 @@ public:
 	Map(int amapSize) :
 			mapSize(amapSize) {}
 
-	~Map() { std::cout << " ~map"; }
+	~Map() { std::cout << " ~map "; }
 
 	void AddRandomCity(int id, int lowestPossibleDistance, int highestPossibleDistance);
 	int getMapSize() { return citySet.size(); }
@@ -45,12 +46,17 @@ public:
 	int getDistanceBetween(const City & c1, const City & c2);
 
 	void print() {
-		std::cout << "map size: " << getMapSize() << std::endl;
-		std::cout<<"MC:";
+		std::cout << std::endl << std::endl << "map size: " << getMapSize() << std::endl;
+		std::cout<<"nodes:";
 		for(std::set<City>::iterator it = citySet.begin() ; it !=citySet.end() ; it++){
 			std::cout<<*it<<" ";
 		}
-		std::cout << std::endl << "'different distances': " << cityDistanceMap.size() << std::endl;
+		std::cout << std::endl;
+		for (const auto &p : cityDistanceMap) {
+			std::cout << "m[" << "first city: " << p.first.first;
+			std::cout << " sec city: " << p.first.second << "] = " << p.second << '\n';
+		}
+		std::cout << std::endl << std::endl;
 	}
 
 	const std::set<City> getCitySet() const {

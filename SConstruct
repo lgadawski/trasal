@@ -39,7 +39,7 @@ env.Append(LIBPATH = [
 env.Program('trasal.o', [
 'src/Configuration.cpp',
 'src/Individual.cpp',
-'src/Bitutils.cpp',
+'src/utils.cpp',
 'src/Map.cpp',
 'src/Population.cpp',
 'src/GeneticAlgorithm.cpp',

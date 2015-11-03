@@ -5,7 +5,8 @@
 using namespace boost;
 using namespace std;
 
-Individual::Individual(const shared_ptr<Map> spm){
+Individual::Individual(const shared_ptr<Map> spm) :
+		map(spm) {
 	// tworze kopie miast do wektora.
 	set<City> city_set = spm.get()->getCitySet();
 	vector<City> cities_copy(city_set.begin(), city_set.end());
@@ -17,17 +18,15 @@ Individual::Individual(const shared_ptr<Map> spm){
 		path.push_back(*n);
 		cities_copy.erase(i);
 	}
-
-	cout << " result individual: ";	printutils::printPath(path);
 }
 
 long Individual::GetLength() const {
 	if (length != -1) return length;
 	length = 0;
-	for(vector<City>::const_iterator it = path.begin(); it != path.end(); ++it) {
-		vector<City>::const_iterator next_it = ++it;
-		if (next_it != path.end()) {
-			auto dist = map.get()->getDistanceBetween(*it, *next_it);
+	for(vector<City>::const_iterator it = path.begin(); it != path.end(); ) {
+		vector<City>::const_iterator prev_it = it++;
+		if (it != path.end()) {
+			auto dist = map.get()->getDistanceBetween(*prev_it, *it);
 			length += dist;
 		}
 	}

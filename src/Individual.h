@@ -43,15 +43,12 @@ public:
 
 	std::vector<City> GetPath() const { return path; }
 
-	// for testing purposes
 	friend bool operator< (const Individual &left, const Individual &right) {
-		// FIXME Segmentation Fault
-		return true;
-//		return left.GetLength() < right.GetLength();
+		return left.GetLength() < right.GetLength();
 	}
 
 	friend ostream & operator<< (ostream &os, const Individual &ind){
-		cout << ind.path.size() << endl;
+		cout << "Individual size: " << ind.path.size() << ", path: ";
 		int size = ind.path.size()-1;
 		for(int i = 0 ; i < size ; i++){
 			os<<ind.path[i]<<"->";

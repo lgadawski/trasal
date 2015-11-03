@@ -22,6 +22,7 @@ public:
 	Individual GetBestIndividual();
 
 	int GetPopulationSize() const { return populationSize; }
+	std::set<Individual> GetIndividualList() { return individuals; }
 };
 
 

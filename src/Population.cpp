@@ -36,12 +36,10 @@ void Population::RandomlyCrossover(const double crossoverPropability) {
 	std::vector<pair<Individual, Individual>> pairs;
 	while (!vIndividuals.empty()) { //dopoki niewszystkie elementy dobrane są w pary
 		// losuje indeksy elementów do połączenia
-		int index1 = randomutils::RandBetween(0, vIndividuals.size());
-		int index2 = randomutils::RandBetween(0, vIndividuals.size());
-		std::vector<Individual>::iterator it1 = std::next(vIndividuals.begin(),
-				index1);
-		std::vector<Individual>::iterator it2 = std::next(vIndividuals.begin(),
-				index2);
+		int index1 = randomutils::RandBetween(0, vIndividuals.size() - 1);
+		int index2 = randomutils::RandBetween(0, vIndividuals.size() - 1);
+		auto it1 = std::next(vIndividuals.begin(), index1);
+		auto it2 = std::next(vIndividuals.begin(), index2);
 
 		//tworze z nich pare
 		pairs.push_back(
@@ -53,18 +51,15 @@ void Population::RandomlyCrossover(const double crossoverPropability) {
 		vIndividuals.erase(it2);
 	}
 
-	for (vector<pair<Individual, Individual>>::iterator it = pairs.begin();
-			it != pairs.end(); it++) {
+	for (auto it = pairs.begin(); it != pairs.end(); it++) {
 		it->first.RandomlyCrossover(crossoverPropability, it->second);
 	}
 
 }
 
 void Population::RandomlyMutate(const double mutatePropability) {
-	for (vector<Individual>::iterator it = individuals.begin();
-			it != individuals.end(); ++it) {
-		optional<shared_ptr<Individual>> opt = it->RandomlyMutate(
-				mutatePropability);
+	for (auto it = individuals.begin(); it != individuals.end(); ++it) {
+		auto opt = it->RandomlyMutate(mutatePropability);
 		if (opt) {
 			mutatedIndividuals.push_back(*(opt.get().get()));
 		}
@@ -112,8 +107,7 @@ shared_ptr<Population> Population::Reproduce() {
 	int sum_sum_x_i = GetPropabDivision(sum);
 
 	std::map<int, pair<double, double>> ind_seq_to_cumulative_range;
-	for (vector<Individual>::iterator it = individuals.begin();
-			it != individuals.end(); ++it) {
+	for (auto it = individuals.begin(); it != individuals.end(); ++it) {
 		it->CalculatePropability(sum, sum_sum_x_i);
 		it->SetSeq(i++);
 		cumulative_distribution += it->GetPropability();

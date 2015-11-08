@@ -42,7 +42,7 @@ public:
 	}
 
 	boost::optional<pair<Individual, Individual>> RandomlyCrossover(
-			const double crossoverPprobability, const Individual &second);
+			const double crossoverPprobability, Individual &second);
 
 	boost::optional<std::shared_ptr<Individual>> RandomlyMutate(
 			const double mutatePropability) const;

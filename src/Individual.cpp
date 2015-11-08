@@ -13,7 +13,7 @@ Individual::Individual(const shared_ptr<Map> spm) :
 
 	while (!cities_copy.empty()) {
 		int index = randomutils::RandBetween(0, cities_copy.size() - 1);
-		vector<City>::iterator i = next(cities_copy.begin(), index);
+		auto i = next(cities_copy.begin(), index);
 		City *n = new City(*i);
 		path.push_back(*n);
 		cities_copy.erase(i);
@@ -24,8 +24,8 @@ long Individual::GetLength() const {
 	if (length != -1)
 		return length;
 	length = 0;
-	for (vector<City>::const_iterator it = path.begin(); it != path.end();) {
-		vector<City>::const_iterator prev_it = it++;
+	for (auto it = path.begin(); it != path.end();) {
+		auto prev_it = it++;
 		if (it != path.end()) {
 			auto dist = map.get()->getDistanceBetween(*prev_it, *it);
 			length += dist;
@@ -36,7 +36,7 @@ long Individual::GetLength() const {
 }
 
 boost::optional<pair<Individual, Individual>> Individual::RandomlyCrossover(
-		const double crossoverProbability, const Individual &second) {
+		const double crossoverProbability, Individual &second) {
 	//TODO po
 	int multiplier = 1000;
 	int crossoverInPromiles = crossoverProbability * multiplier;

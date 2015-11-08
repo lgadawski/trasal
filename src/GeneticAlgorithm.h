@@ -13,7 +13,7 @@ private:
 	Configuration conf;
 
 	GeneticAlgorithm() {
-		throw std::exception();
+		throw std::runtime_error("GA empty constructor");
 	}
 
 	// number of generations, STOP condition for algorithm

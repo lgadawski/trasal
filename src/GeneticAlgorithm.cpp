@@ -1,7 +1,8 @@
 #include "GeneticAlgorithm.h"
 
 Individual GeneticAlgorithm::Perform() {
-	auto initialPopulation = shared_ptr<Population>(new Population(map, conf.GetPopulationSize()));
+	auto initialPopulation = shared_ptr<Population>(
+			new Population(map, conf.GetPopulationSize()));
 
 	auto currentPopulation = initialPopulation->Reproduce();
 	for (int i = 0; i < GENERATION_NUMBER; ++i) {
@@ -16,7 +17,8 @@ Individual GeneticAlgorithm::Perform() {
 	}
 	// TODO
 	cout << endl << " END: ";
-	printutils::printPath(initialPopulation.get()->GetBestIndividual().GetPath());
+	printutils::printPath(
+			initialPopulation.get()->GetBestIndividual().GetPath());
 
 	return initialPopulation->GetBestIndividual();
 }

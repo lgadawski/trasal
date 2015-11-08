@@ -14,7 +14,7 @@ namespace randomutils {
 	int RandBetween(int min, int max);
 }
 
-namespace printutils{
+namespace printutils {
 	void printPath(const std::vector<City> &path);
 }
 #endif /* UTILS_H_ */

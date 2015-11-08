@@ -16,7 +16,8 @@ private:
 	Individual GetIndividualBySeq(int seq) const;
 	void print_summary();
 public:
-	Population(const std::vector<Individual> aindividuals, const std::shared_ptr<Map> amap, const int apopulation_size);
+	Population(const std::vector<Individual> aindividuals,
+			const std::shared_ptr<Map> amap, const int apopulation_size);
 	Population(const std::shared_ptr<Map> amap, const int apopSize);
 
 	virtual ~Population() {
@@ -30,10 +31,12 @@ public:
 
 	Individual GetBestIndividual();
 
-	int GetPopulationSize() const { return population_size; }
-	std::vector<Individual> GetIndividualList() { return individuals; }
+	int GetPopulationSize() const {
+		return population_size;
+	}
+	std::vector<Individual> GetIndividualList() {
+		return individuals;
+	}
 };
-
-
 
 #endif /* POPULATION_H_ */

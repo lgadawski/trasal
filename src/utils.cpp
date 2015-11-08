@@ -9,7 +9,7 @@
 using namespace std;
 
 std::random_device rd;     // only used once to initialise (seed) engine
-std::mt19937 rng(rd());    // random-number engine used (Mersenne-Twister in this case)
+std::mt19937 rng(rd()); // random-number engine used (Mersenne-Twister in this case)
 
 int bitutils::GetNumberOfBitsNeedToRepresentValue(int val) {
 	int count = 0;
@@ -21,12 +21,12 @@ int bitutils::GetNumberOfBitsNeedToRepresentValue(int val) {
 	return count;
 }
 
-std::string bitutils::ToStringBitSet(boost::dynamic_bitset<> bit_set){
+std::string bitutils::ToStringBitSet(boost::dynamic_bitset<> bit_set) {
 	string result;
-	for(uint i = 0 ; i < bit_set.size() ; i++){
-		if(bit_set[i]){
+	for (uint i = 0; i < bit_set.size(); i++) {
+		if (bit_set[i]) {
 			result.append("1");
-		}else{
+		} else {
 			result.append("0");
 		}
 	}
@@ -34,19 +34,18 @@ std::string bitutils::ToStringBitSet(boost::dynamic_bitset<> bit_set){
 }
 
 int randomutils::RandBetween(int min, int max) {
-	std::uniform_int_distribution<int> uni(min,max); // guaranteed unbiased
+	std::uniform_int_distribution<int> uni(min, max); // guaranteed unbiased
 
 	return uni(rng);
 }
 
-void printutils::printPath(const std::vector<City> &path){
+void printutils::printPath(const std::vector<City> &path) {
 	int size = path.size();
-	for(int i = 0 ; i < size-1 ; ++i){
-		std::cout<<path[i]<<"->";
+	for (int i = 0; i < size - 1; ++i) {
+		std::cout << path[i] << "->";
 	}
-	if(!path.empty()){
-		cout<<path.back()<<endl;
+	if (!path.empty()) {
+		cout << path.back() << endl;
 	}
 }
-
 

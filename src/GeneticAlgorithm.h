@@ -12,7 +12,9 @@ private:
 	std::shared_ptr<Map> map;
 	Configuration conf;
 
-	GeneticAlgorithm() { throw std::exception(); }
+	GeneticAlgorithm() {
+		throw std::exception();
+	}
 
 	// number of generations, STOP condition for algorithm
 	const int GENERATION_NUMBER = 3;
@@ -20,14 +22,16 @@ private:
 	Population& Reproduce(Population &population);
 public:
 	GeneticAlgorithm(shared_ptr<Map> amap, Configuration& aconf) :
-		map(amap),
-		conf(aconf) {}
+			map(amap), conf(aconf) {
+	}
 
 	Individual Perform();
-	shared_ptr<Map> GetMap() { return map; }
-	Configuration GetConfiguration() { return conf; }
+	shared_ptr<Map> GetMap() {
+		return map;
+	}
+	Configuration GetConfiguration() {
+		return conf;
+	}
 };
-
-
 
 #endif /* GENETICALGORITHM_H_ */

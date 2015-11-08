@@ -7,7 +7,6 @@
 class Population {
 private:
 	std::vector<Individual> individuals;
-	std::vector<Individual> mutatedIndividuals;
 	std::shared_ptr<Map> map;
 	int population_size;
 

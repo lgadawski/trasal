@@ -40,8 +40,7 @@ boost::optional<pair<Individual, Individual>> Individual::RandomlyCrossover(
 	//TODO po
 	int multiplier = 1000;
 	int crossoverInPromiles = crossoverProbability * multiplier;
-	if (randomutils::RandBetween(0, crossoverInPromiles)
-			< crossoverInPromiles) {
+	if (randomutils::RandBetween(0, crossoverInPromiles) < crossoverInPromiles) {
 		Individual new_individual_1 = Individual(*this);
 		Individual new_individual_2 = Individual(second);
 		cout << "IND1 " << new_individual_1 << endl;
@@ -92,6 +91,7 @@ boost::optional<pair<Individual, Individual>> Individual::RandomlyCrossover(
 
 		return pair<Individual, Individual>(new_individual_1, new_individual_2);
 	}
+
 	return none;
 }
 
@@ -103,14 +103,12 @@ bool Individual::ContainsCity(City c) {
 	return false;
 }
 
-optional<shared_ptr<Individual>> Individual::RandomlyMutate(
-		double mutatePropability) const {
+optional<shared_ptr<Individual>> Individual::RandomlyMutate(double mutatePropability) const {
 	int propabilityInPercents = mutatePropability * 100;
 
 	shared_ptr<Individual> new_individual(new Individual(*this));
 	int path_size = path.size();
 	for (int i = 0; i < (int) path_size; ++i) {
-		cout << "current idx: " << i << endl;
 		if (randomutils::RandBetween(0, 100) < propabilityInPercents) {
 			auto first_idx = randomutils::RandBetween(0, path_size - 1);
 			auto sec_idx = randomutils::RandBetween(0, path_size - 1);
@@ -121,7 +119,7 @@ optional<shared_ptr<Individual>> Individual::RandomlyMutate(
 			cout << "#mutate#" << " first_idx: " << first_idx << " second_idx: "
 					<< sec_idx << endl;
 
-			new_individual.get()->swap_path(first_idx, sec_idx);
+			new_individual->swap_path(first_idx, sec_idx);
 		}
 	}
 	if (this == new_individual.get()) {

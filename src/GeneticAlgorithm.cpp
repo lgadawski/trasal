@@ -12,13 +12,13 @@ Individual GeneticAlgorithm::Perform() {
 		currentPopulation->RandomlyCrossover(conf.GetPropabilityOfCrossover());
 		currentPopulation->RandomlyMutate(conf.GetPropabilityOfMutation());
 
-		// eval currentPopulation TODO lg
 		initialPopulation = currentPopulation;
 	}
-	// TODO
+
+	auto best = initialPopulation.get()->GetBestIndividual();
 	cout << endl << " END: ";
-	printutils::printPath(
-			initialPopulation.get()->GetBestIndividual().GetPath());
+	printutils::printPath(best.GetPath());
+	cout << endl << "PAth LEN: " << best.GetLength() << endl;
 
 	return initialPopulation->GetBestIndividual();
 }

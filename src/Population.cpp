@@ -31,39 +31,64 @@ void Population::print_summary() {
 
 void Population::RandomlyCrossover(const double crossoverPropability) {
 	//dobieranie w pary
-	std::vector<Individual> vIndividuals(individuals.size());
-	std::copy(individuals.begin(), individuals.end(), vIndividuals.begin());
-	std::vector<pair<Individual, Individual>> pairs;
-	while (!vIndividuals.empty()) { //dopoki niewszystkie elementy dobrane są w pary
+	vector<Individual> vIndividuals(individuals.size());
+	copy(individuals.begin(), individuals.end(), vIndividuals.begin());
+
+	vector<pair<Individual, Individual>> pairs;
+	while (!vIndividuals.empty()) { //dopoki nie wszystkie elementy dobrane są w pary
 		// losuje indeksy elementów do połączenia
 		int index1 = randomutils::RandBetween(0, vIndividuals.size() - 1);
 		int index2 = randomutils::RandBetween(0, vIndividuals.size() - 1);
-		auto it1 = std::next(vIndividuals.begin(), index1);
-		auto it2 = std::next(vIndividuals.begin(), index2);
+		cout << endl << "idx1: " << index1 << " idx2: " << index2 << " ind size: " << vIndividuals.size();
+		if (index1 != index2) {
+			//tworze z nich pare
+			pairs.push_back(
+					pair<Individual, Individual>(vIndividuals[index1], vIndividuals[index2]));
 
-		//tworze z nich pare
-		pairs.push_back(
-				pair<Individual, Individual>(vIndividuals[index1],
-						vIndividuals[index2]));
+			auto it1 = std::next(vIndividuals.begin(), index1);
+			auto it2 = std::next(vIndividuals.begin(), index2);
 
-		//usuwam z pomocniczego wektora , żeby uniknąć dupplikacji
-		vIndividuals.erase(it1);
-		vIndividuals.erase(it2);
+			//usuwam z pomocniczego wektora, żeby uniknąć duplikacji
+			vIndividuals.erase(it1);
+			vIndividuals.erase(it2);
+		}
+		if (vIndividuals.size() == 1 && (index1 == 0 && index2 == 0)) {
+			break;
+		}
 	}
 
+	individuals.clear();
 	for (auto it = pairs.begin(); it != pairs.end(); it++) {
-		it->first.RandomlyCrossover(crossoverPropability, it->second);
+		auto opt = it->first.RandomlyCrossover(crossoverPropability, it->second);
+		if (opt) {
+			individuals.push_back(opt.get().first);
+			individuals.push_back(opt.get().second);
+		} else {
+			individuals.push_back(it->first);
+			individuals.push_back(it->second);
+		}
 	}
-
+	if (vIndividuals.size() == 1) {
+		// add orphan
+		individuals.push_back(vIndividuals[0]);
+	}
+	sort(individuals.begin(), individuals.end());
 }
 
 void Population::RandomlyMutate(const double mutatePropability) {
-	for (auto it = individuals.begin(); it != individuals.end(); ++it) {
+	std::vector<Individual> result(individuals.size());
+	std::copy(individuals.begin(), individuals.end(), result.begin());
+	individuals.clear();
+
+	for (auto it = result.begin(); it != result.end(); ++it) {
 		auto opt = it->RandomlyMutate(mutatePropability);
 		if (opt) {
-			mutatedIndividuals.push_back(*(opt.get().get()));
+			individuals.push_back(*(opt.get()));
+		} else {
+			individuals.push_back(*(it));
 		}
 	}
+	sort(individuals.begin(), individuals.end());
 }
 
 Individual Population::GetBestIndividual() {
@@ -119,8 +144,7 @@ shared_ptr<Population> Population::Reproduce() {
 
 	cout << endl << "Before random roulette!";
 	for (auto &&x : individuals)
-		cout << endl << "len: " << x.GetLength() << " propab: "
-				<< x.GetPropability();
+		cout << endl << "len: " << x.GetLength() << " propab: " << x.GetPropability();
 	cout << endl << "End of roulette!" << endl;
 
 	vector<Individual> new_set;
@@ -130,8 +154,7 @@ shared_ptr<Population> Population::Reproduce() {
 		cout << endl << endl << "RANDOM_A: " << random_a;
 
 		for (auto &&ind_pair : ind_seq_to_cumulative_range) {
-			cout << endl << "[" << ind_pair.second.first << ", "
-					<< ind_pair.second.second << "]";
+			cout << endl << "[" << ind_pair.second.first << ", " << ind_pair.second.second << "]";
 
 			if (random_a <= ind_pair.second.second
 					&& random_a >= ind_pair.second.first) {

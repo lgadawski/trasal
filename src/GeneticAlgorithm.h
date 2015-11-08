@@ -15,15 +15,15 @@ private:
 	GeneticAlgorithm() { throw std::exception(); }
 
 	// number of generations, STOP condition for algorithm
-	const int GENERATION_NUMBER = 100;
+	const int GENERATION_NUMBER = 3;
 
+	Population& Reproduce(Population &population);
 public:
 	GeneticAlgorithm(shared_ptr<Map> amap, Configuration& aconf) :
 		map(amap),
 		conf(aconf) {}
 
 	Individual Perform();
-	Population& Reproduce(Population &population);
 	shared_ptr<Map> GetMap() { return map; }
 	Configuration GetConfiguration() { return conf; }
 };

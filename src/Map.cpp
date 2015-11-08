@@ -88,7 +88,7 @@ bool Map::WriteMapToFile(string path, Map& m){
 
 void Map::AddRandomCity(int id, int lowestPossibleDistance, int highestPossibleDistance) {
 	City *cp = new City(id);
-	for(set<City>::iterator it = citySet.begin(); it!= citySet.end(); it++){
+	for(set<City>::iterator it = citySet.begin(); it != citySet.end(); ++it){
 		int distance = randomutils::RandBetween(lowestPossibleDistance, highestPossibleDistance);
 		cityDistanceMap.insert(pair<pair_of_cityies, int>(pair_of_cityies(*cp, *it), distance));
 	}
@@ -96,11 +96,10 @@ void Map::AddRandomCity(int id, int lowestPossibleDistance, int highestPossibleD
 }
 
 shared_ptr<Map> Map::ConstructMapOfSize(int mapSize, int lowestPossibleDistance = 0, int highestPossibleDistance = 200) {
-	Map *new_map = new Map(mapSize);
-	shared_ptr<Map> pmap(new_map);
+	shared_ptr<Map> pmap(new Map(mapSize));
 
 	for (int var = 0; var < mapSize; ++var) {
-		pmap.get()->AddRandomCity(var, lowestPossibleDistance, highestPossibleDistance);
+		pmap->AddRandomCity(var, lowestPossibleDistance, highestPossibleDistance);
 	}
 
 	return pmap;

@@ -13,9 +13,13 @@ using namespace std;
 // osobnik, lista miast jako jeden stan
 class Individual {
 private:
-	std::vector<City> path;
 	std::shared_ptr<Map> map;
+	std::vector<City> path;
 	mutable int length = -1;
+
+	int seq;
+	double propability;
+	double cum_dist;
 
 	bool ContainsCity(City c);
 
@@ -24,12 +28,17 @@ public:
 	Individual(const std::shared_ptr<Map> amap);
 	Individual(const Individual & copy) :
 		map(copy.map),
-		length(copy.length)
+		length(copy.length),
+		seq(copy.seq),
+		propability(copy.propability),
+		cum_dist(copy.cum_dist)
 	{
 		this->path = copy.GetPath();
 	}
 
-	~Individual() { std::cout << " ~individual "; }
+	virtual ~Individual() {
+//		std::cout << " ~individual ";
+	}
 
 	void swap_path(int first_idx, int sec_idx) { std::swap(path[first_idx], path[sec_idx]); }
 
@@ -41,11 +50,26 @@ public:
 
 	long int GetLength() const;
 
+	long int GetAdaptationValue() const {
+		// FIXME correct to: (1 - #GetLength()), to promote smaller results
+		return GetLength();
+	}
+
+	void SetCumulativeDistribution(double acum_distr) { cum_dist = acum_distr; }
+	double GetPropability() const { return propability; }
+	void SetSeq(int aseq) { seq = aseq; }
+	int GetSeq() const { return seq; }
 	std::vector<City> GetPath() const { return path; }
 
-	friend bool operator< (const Individual &left, const Individual &right) {
-		return left.GetLength() < right.GetLength();
+	//	propab = (len_sum - x) / (sum(len_sum - x_i))
+	void CalculatePropability(int sum, int sum_division) {
+		double d_sum = (double) sum, d_sum_divisiont = (double) sum_division, d_len = (double) GetLength();
+
+		propability = (d_sum - d_len) /d_sum_divisiont;
 	}
+
+	friend bool operator< (const Individual &left, const Individual &right) { return left.GetLength() < right.GetLength(); }
+	friend bool operator== (const Individual &left, const Individual &right) { return left.GetPath() == right.GetPath(); }
 
 	friend ostream & operator<< (ostream &os, const Individual &ind){
 		cout << "Individual size: " << ind.path.size() << ", path: ";
@@ -56,10 +80,6 @@ public:
 		if(!ind.path.empty())
 			os<<ind.path.back();
 		return os;
-	}
-
-	friend bool operator== (const Individual &left, const Individual &right) {
-		return left.GetPath() == right.GetPath();
 	}
 
 	void SetPath(const std::vector<City>& path){this->path = path;}

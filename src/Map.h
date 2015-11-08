@@ -33,7 +33,9 @@ public:
 	Map(int amapSize) :
 			mapSize(amapSize) {}
 
-	~Map() { std::cout << " ~map "; }
+	virtual ~Map() {
+		std::cout << " ~map ";
+	}
 
 	void AddRandomCity(int id, int lowestPossibleDistance, int highestPossibleDistance);
 	int getMapSize() { return citySet.size(); }

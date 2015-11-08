@@ -16,8 +16,22 @@ int main(int ac, char* av[]) {
 	Configuration conf = Configuration::ReadFromFile("conf/app.properties");
 	cout << " POPULATION SIZE: " << conf.GetPopulationSize() << endl;
 
-//	auto map = shared_ptr<Map>(Map::ConstructMapOfSize(3, 1, 10));
-	auto map = shared_ptr<Map>(Map::ReadMapFromFile("conf/mapa.txt"));
+	auto map = shared_ptr<Map>(Map::ConstructMapOfSize(5, 1, 10));
+//	auto map = shared_ptr<Map>(Map::ReadMapFromFile("conf/mapa.txt"));
+	map->print();
+
+	GeneticAlgorithm g(map, conf);
+	g.Perform();
+
+	return 0;
+}
+
+int main_test(int ac, char* av[]) {
+	Configuration conf = Configuration::ReadFromFile("conf/app.properties");
+	cout << " POPULATION SIZE: " << conf.GetPopulationSize() << endl;
+
+	auto map = shared_ptr<Map>(Map::ConstructMapOfSize(50, 1, 10));
+//	auto map = shared_ptr<Map>(Map::ReadMapFromFile("conf/mapa.txt"));
 	map.get()->print();
 
 	City c1(0), c2(1);
@@ -34,7 +48,9 @@ int main(int ac, char* av[]) {
 
 	auto best = p->GetBestIndividual();
 	cout << endl << "BEST: " << best;
-	cout << endl << "BEST size: " << best.GetLength() << endl;
+	cout << endl << endl << "POPULATION SIZE: " << p->GetPopulationSize() << endl << endl;
+
+	return 0;
 }
 
 int main2(int ac, char* av[]) {

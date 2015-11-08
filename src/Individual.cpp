@@ -66,17 +66,17 @@ boost::optional<pair<Individual,Individual>> Individual::RandomlyCrossover(const
 				cout<<new_individual_2<<endl<<endl;
 			}
 		}
-		for(int i = 0; i<=path.size() ; i++){
+		for (int i = 0; i<= (int) path.size() ; i++) {
 			if(i>=lesserSeparateIndex && i<=largerSeparateIndex){	//jezeli jestem na posycji do wymiany kawałka pomiędzy i1 a i2
 				continue;
 			}else{
-				for(int j=0 ; j < path.size() ; j++){
+				for (int j=0 ; j < (int) path.size() ; j++) {
 					if(!new_individual_1.ContainsCity(this->GetCity(j))){
 						new_individual_1.SetCity(i,this->GetCity(j));
 						break;
 					}
 				}
-				for(int j=0 ; j < path.size() ; j++){
+				for (int j=0 ; j < (int) path.size() ; j++) {
 					if(!new_individual_2.ContainsCity(second.GetCity(j))){
 						new_individual_2.SetCity(i,second.GetCity(j));
 						break;
@@ -102,8 +102,8 @@ optional<shared_ptr<Individual>> Individual::RandomlyMutate(double mutatePropabi
 	int propabilityInPercents = mutatePropability * 100;
 
 	shared_ptr<Individual> new_individual(new Individual(*this));
-	uint path_size = path.size();
-	for (uint i = 0; i < path_size; ++i) {
+	int path_size = path.size();
+	for (int i = 0; i < (int) path_size; ++i) {
 		cout << "current idx: " << i << endl;
 		if (randomutils::RandBetween(0, 100) < propabilityInPercents) {
 			auto first_idx = randomutils::RandBetween(0, path_size - 1);

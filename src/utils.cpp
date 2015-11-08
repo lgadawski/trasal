@@ -39,7 +39,6 @@ int randomutils::RandBetween(int min, int max) {
 	return uni(rng);
 }
 
-
 void printutils::printPath(const std::vector<City> &path){
 	int size = path.size();
 	for(int i = 0 ; i < size-1 ; ++i){

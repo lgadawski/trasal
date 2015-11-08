@@ -13,7 +13,9 @@ public:
 	City(const int idd = -1) : id(idd) {}
 	City(const City & copy) : id(copy.getId()) {}
 
-	~City() { std::cout << " ~city "; }
+	virtual ~City() {
+//		std::cout << " ~city ";
+	}
 
 	int getId() const {return id;}
 	std::string ToString();

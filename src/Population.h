@@ -6,24 +6,36 @@
 
 class Population {
 private:
-	std::set<Individual> individuals;
-	std::set<Individual> mutatedIndividuals;
+	std::vector<Individual> individuals;
 	std::shared_ptr<Map> map;
-	int populationSize;
+	int population_size;
 
+	int GetAdaptationSumLen() const;
+	int GetPropabDivision(int sum) const;
+	Individual GetIndividualBySeq(int seq) const;
+	void print_summary();
 public:
+	Population(const std::vector<Individual> aindividuals,
+			const std::shared_ptr<Map> amap, const int apopulation_size);
 	Population(const std::shared_ptr<Map> amap, const int apopSize);
 
-	~Population() { std::cout << " ~population"; }
+	virtual ~Population() {
+		std::cout << " ~population ";
+	}
 
 	void RandomlyCrossover(const double crossoverPropability);
 	void RandomlyMutate(const double mutatePropability);
 
+	std::shared_ptr<Population> Reproduce();
+
 	Individual GetBestIndividual();
 
-	int GetPopulationSize() const { return populationSize; }
+	int GetPopulationSize() const {
+		return population_size;
+	}
+	std::vector<Individual> GetIndividualList() {
+		return individuals;
+	}
 };
-
-
 
 #endif /* POPULATION_H_ */

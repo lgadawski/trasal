@@ -1,23 +1,24 @@
 #include "GeneticAlgorithm.h"
 
 Individual GeneticAlgorithm::Perform() {
-	Population initialPopulation(map, conf.GetPopulationSize());
+	auto initialPopulation = shared_ptr<Population>(
+			new Population(map, conf.GetPopulationSize()));
 
-	Population currentPopulation = Reproduce(initialPopulation);;
+	auto currentPopulation = initialPopulation->Reproduce();
 	for (int i = 0; i < GENERATION_NUMBER; ++i) {
-		currentPopulation = Reproduce(initialPopulation);
+		cout << endl << "GA debug: " << i << endl;
+		currentPopulation = initialPopulation->Reproduce();
 
-		currentPopulation.RandomlyCrossover(conf.GetPropabilityOfCrossover());
-		currentPopulation.RandomlyMutate(conf.GetPropabilityOfMutation());
+		currentPopulation->RandomlyCrossover(conf.GetPropabilityOfCrossover());
+		currentPopulation->RandomlyMutate(conf.GetPropabilityOfMutation());
 
-		// eval currentPopulation TODO lg
 		initialPopulation = currentPopulation;
 	}
-	// TODO
-	return initialPopulation.GetBestIndividual();
-}
 
-Population& GeneticAlgorithm::Reproduce(Population &population) {
-	// TODO lg
-//	return descendant;
+	auto best = initialPopulation.get()->GetBestIndividual();
+	cout << endl << " END: ";
+	printutils::printPath(best.GetPath());
+	cout << endl << "PAth LEN: " << best.GetLength() << endl;
+
+	return initialPopulation->GetBestIndividual();
 }

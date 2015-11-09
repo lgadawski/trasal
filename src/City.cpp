@@ -8,11 +8,11 @@
 #include "City.h"
 
 using namespace std;
-string City::ToString(){
+string City::ToString() {
 	stringstream ss;
 	string result;
-	ss<<this->id;
-	ss>>result;
+	ss << this->id;
+	ss >> result;
 	return result;
 }
 

@@ -10,16 +10,30 @@ class City {
 private:
 	int id;
 public:
-	City(const int idd = -1) : id(idd) {}
-	City(const City & copy) : id(copy.getId()) {}
+	City(const int idd = -1) :
+			id(idd) {
+	}
+	City(const City & copy) :
+			id(copy.getId()) {
+	}
 
-	~City() { std::cout << " ~city"; }
+	virtual ~City() {
+//		std::cout << " ~city ";
+	}
 
-	int getId() const {return id;}
+	int getId() const {
+		return id;
+	}
 	std::string ToString();
-	friend bool operator< (const City &left, const City &right) { return left.id < right.id; }
-	friend bool operator== (const City &left, const City &right) {return left.id == right.id; }
-	friend std::ostream & operator<< (std::ostream &os, const City &c){ return os<<c.getId(); }
+	friend bool operator<(const City &left, const City &right) {
+		return left.id < right.id;
+	}
+	friend bool operator==(const City &left, const City &right) {
+		return left.id == right.id;
+	}
+	friend std::ostream & operator<<(std::ostream &os, const City &c) {
+		return os << c.getId();
+	}
 };
 
 #endif /* CITY_H_ */

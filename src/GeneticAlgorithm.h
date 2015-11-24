@@ -17,7 +17,7 @@ private:
 	}
 
 	// number of generations, STOP condition for algorithm
-	const int GENERATION_NUMBER = 30;
+	const int GENERATION_NUMBER = conf.GetGenerationNumber();
 
 	Population& Reproduce(Population &population);
 public:

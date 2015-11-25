@@ -56,7 +56,7 @@ void Population::RandomlyCrossover(const double crossoverPropability) {
 			break;
 		}
 	}
-
+	cout<<endl;
 	individuals.clear();
 	for (auto it = pairs.begin(); it != pairs.end(); it++) {
 		auto opt = it->first.RandomlyCrossover(crossoverPropability, it->second);

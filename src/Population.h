@@ -20,7 +20,7 @@ public:
 	Population(const std::shared_ptr<Map> amap, const int apopSize);
 
 	virtual ~Population() {
-		std::cout << " ~population ";
+		std::cout << " ~population "<<endl;;
 	}
 
 	void RandomlyCrossover(const double crossoverPropability);

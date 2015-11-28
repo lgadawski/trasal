@@ -10,7 +10,7 @@ Individual GeneticAlgorithm::Perform() {
 	cout<<"Initial population initialization time: "<< duration<<" microseconds"<<endl;
 
 	auto currentPopulation = initialPopulation->Reproduce();
-
+	auto whole_time = 0;
 	for (int i = 0; i < GENERATION_NUMBER; ++i) {
 		cout << endl << "GA debug: " << i << endl;
 		std::chrono::high_resolution_clock::time_point t1 = std::chrono::high_resolution_clock::now();
@@ -22,8 +22,11 @@ Individual GeneticAlgorithm::Perform() {
 		initialPopulation = currentPopulation;
 		std::chrono::high_resolution_clock::time_point t2 = std::chrono::high_resolution_clock::now();
 		auto duration =  std::chrono::duration_cast<std::chrono::microseconds>(t2-t1).count();
+		whole_time += duration;
 		cout<<i<<" 'st generation production time: "<<duration<<" microseconds"<<endl;
 	}
+
+	cout << endl << "whole loop time " << whole_time << endl;
 
 	auto best = initialPopulation.get()->GetBestIndividual();
 	cout << endl << " END: ";

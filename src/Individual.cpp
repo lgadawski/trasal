@@ -43,8 +43,8 @@ boost::optional<pair<Individual, Individual>> Individual::RandomlyCrossover(
 	if (randomutils::RandBetween(0, crossoverInPromiles) < crossoverInPromiles) {
 		Individual new_individual_1 = Individual(*this);
 		Individual new_individual_2 = Individual(second);
-		cout << "IND1 " << new_individual_1 << endl;
-		cout << "IND2 " << new_individual_2 << endl;
+//		cout << "IND1 " << new_individual_1 << endl;
+//		cout << "IND2 " << new_individual_2 << endl;
 		new_individual_1.resetPath();
 		new_individual_2.resetPath();
 
@@ -60,34 +60,42 @@ boost::optional<pair<Individual, Individual>> Individual::RandomlyCrossover(
 			largerSeparateIndex = temp;
 		}
 
+//		#pragma omp parallel for shared(lesserSeparateIndex, largerSeparateIndex)
 		for (int i = lesserSeparateIndex; i <= largerSeparateIndex; i++) {
-			if (i >= lesserSeparateIndex && i <= largerSeparateIndex) {	//jezeli jestem na posycji do wymiany kawałka pomiędzy i1 a i2
+			//jezeli jestem na posycji do wymiany kawałka pomiędzy i1 a i2
+			if (i >= lesserSeparateIndex && i <= largerSeparateIndex) {
 				new_individual_1.SetCity(i, second.GetCity(i));
-				new_individual_2.SetCity(i, this->GetCity(i));
-				cout << new_individual_1 << endl;
-				cout << new_individual_2 << endl << endl;
+				new_individual_2.SetCity(i, GetCity(i));
+//				cout << new_individual_1 << endl;
+//				cout << new_individual_2 << endl << endl;
 			}
 		}
-		for (int i = 0; i <= (int) path.size(); i++) {
-			if (i >= lesserSeparateIndex && i <= largerSeparateIndex) {	//jezeli jestem na posycji do wymiany kawałka pomiędzy i1 a i2
-				continue;
-			} else {
-				for (int j = 0; j < (int) path.size(); j++) {
-					if (!new_individual_1.ContainsCity(this->GetCity(j))) {
-						new_individual_1.SetCity(i, this->GetCity(j));
-						break;
+
+		const int path_size = (int) path.size();
+		for (int i = 0; i <= path_size; i++) {
+			//jezeli jestem na posycji do wymiany kawałka pomiędzy i1 a i2
+			if (!(i >= lesserSeparateIndex && i <= largerSeparateIndex)) {
+				bool should_break1 = false;
+				for (int j = 0; j < path_size && !should_break1; j++) {
+					auto j_city = GetCity(j);
+					if (!new_individual_1.ContainsCity(j_city)) {
+						new_individual_1.SetCity(i, j_city);
+						should_break1 = true;
 					}
 				}
-				for (int j = 0; j < (int) path.size(); j++) {
-					if (!new_individual_2.ContainsCity(second.GetCity(j))) {
-						new_individual_2.SetCity(i, second.GetCity(j));
-						break;
+
+				bool should_break2 = false;
+				for (int j = 0; j < path_size && !should_break2; j++) {
+					auto j_city = second.GetCity(j);
+					if (!new_individual_2.ContainsCity(j_city)) {
+						new_individual_2.SetCity(i, j_city);
+						should_break2 = true;
 					}
 				}
 			}
 		}
-		cout << new_individual_1 << endl;
-		cout << new_individual_2 << endl << endl;
+//		cout << new_individual_1 << endl;
+//		cout << new_individual_2 << endl << endl;
 
 		return pair<Individual, Individual>(new_individual_1, new_individual_2);
 	}
@@ -95,7 +103,7 @@ boost::optional<pair<Individual, Individual>> Individual::RandomlyCrossover(
 	return none;
 }
 
-bool Individual::ContainsCity(City c) {
+bool Individual::ContainsCity(City c) const {
 	for (uint i = 0; i < path.size(); i++)
 		if (c == path[i])
 			return true;
@@ -108,6 +116,7 @@ optional<shared_ptr<Individual>> Individual::RandomlyMutate(double mutatePropabi
 
 	shared_ptr<Individual> new_individual(new Individual(*this));
 	int path_size = path.size();
+
 	for (int i = 0; i < (int) path_size; ++i) {
 		if (randomutils::RandBetween(0, 100) < propabilityInPercents) {
 			auto first_idx = randomutils::RandBetween(0, path_size - 1);
@@ -116,8 +125,7 @@ optional<shared_ptr<Individual>> Individual::RandomlyMutate(double mutatePropabi
 			while (first_idx == sec_idx)
 				sec_idx = randomutils::RandBetween(0, path_size - 1);
 
-			cout << "#mutate#" << " first_idx: " << first_idx << " second_idx: "
-					<< sec_idx << endl;
+//			cout << "#mutate#" << " first_idx: " << first_idx << " second_idx: " << sec_idx << endl;
 
 			new_individual->swap_path(first_idx, sec_idx);
 		}
@@ -131,6 +139,7 @@ optional<shared_ptr<Individual>> Individual::RandomlyMutate(double mutatePropabi
 }
 
 void Individual::resetPath() {
+//	#pragma omp parallel for
 	for (uint i = 0; i < path.size(); i++) {
 		path[i] = City();
 	}

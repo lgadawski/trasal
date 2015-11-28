@@ -19,7 +19,12 @@ env.Append(CCFLAGS = [
 '-Wall',
 '-g',
 '-pedantic',
-'-fdiagnostics-color=always'
+'-fdiagnostics-color=always',
+'-fopenmp'
+])
+
+env.Append(LINKFLAGS = [
+'-fopenmp'
 ])
 
 # libraries to link against

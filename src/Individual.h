@@ -21,7 +21,7 @@ private:
 	double propability;
 	double cum_dist;
 
-	bool ContainsCity(City c);
+	bool ContainsCity(City c) const;
 
 public:
 	Individual() {
@@ -52,7 +52,6 @@ public:
 	long int GetLength() const;
 
 	long int GetAdaptationValue() const {
-		// FIXME correct to: (1 - #GetLength()), to promote smaller results
 		return GetLength();
 	}
 
@@ -101,14 +100,15 @@ public:
 	void SetPath(const std::vector<City>& path) {
 		this->path = path;
 	}
+
 	void SetCity(int position, City c) {
 		path[position] = c;
 	}
-	;
-	City GetCity(int position) {
+
+	City GetCity(int position) const {
 		return path[position];
 	}
-	;
+
 	void resetPath();
 };
 

@@ -60,6 +60,7 @@ boost::optional<pair<Individual, Individual>> Individual::RandomlyCrossover(
 			largerSeparateIndex = temp;
 		}
 
+//		#pragma omp parallel for
 		for (int i = lesserSeparateIndex; i <= largerSeparateIndex; i++) {
 			if (i >= lesserSeparateIndex && i <= largerSeparateIndex) {	//jezeli jestem na posycji do wymiany kawałka pomiędzy i1 a i2
 				new_individual_1.SetCity(i, second.GetCity(i));
@@ -68,6 +69,8 @@ boost::optional<pair<Individual, Individual>> Individual::RandomlyCrossover(
 				cout << new_individual_2 << endl << endl;
 			}
 		}
+
+//		#pragma omp parallel for
 		for (int i = 0; i <= (int) path.size(); i++) {
 			if (i >= lesserSeparateIndex && i <= largerSeparateIndex) {	//jezeli jestem na posycji do wymiany kawałka pomiędzy i1 a i2
 				continue;
@@ -131,6 +134,7 @@ optional<shared_ptr<Individual>> Individual::RandomlyMutate(double mutatePropabi
 }
 
 void Individual::resetPath() {
+
 	for (uint i = 0; i < path.size(); i++) {
 		path[i] = City();
 	}

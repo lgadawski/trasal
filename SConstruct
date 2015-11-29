@@ -16,10 +16,15 @@ env.Append(CPPPATH = [
 
 # Add compile-time flags
 env.Append(CCFLAGS = [
+'-fopenmp',
 '-Wall',
 '-g',
 '-pedantic',
 '-fdiagnostics-color=always'
+])
+
+env.Append(LINKFLAGS = [
+'-fopenmp'
 ])
 
 # libraries to link against
@@ -27,6 +32,7 @@ env.Append(CCFLAGS = [
 env.Append(LIBS=[
 'boost_program_options'
 ])
+
 
 # Add library search path
 env.Append(LIBPATH = [

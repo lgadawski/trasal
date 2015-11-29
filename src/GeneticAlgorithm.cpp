@@ -1,4 +1,5 @@
 #include "GeneticAlgorithm.h"
+#include <omp.h>
 #include <chrono>
 
 Individual GeneticAlgorithm::Perform() {
@@ -10,6 +11,7 @@ Individual GeneticAlgorithm::Perform() {
 	cout<<"Initial population initialization time: "<< duration<<" microseconds"<<endl;
 
 	auto currentPopulation = initialPopulation->Reproduce();
+
 
 	for (int i = 0; i < GENERATION_NUMBER; ++i) {
 		cout << endl << "GA debug: " << i << endl;

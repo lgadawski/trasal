@@ -4,6 +4,7 @@
 #include <boost/dynamic_bitset.hpp>
 #include <exception>
 #include <iostream>
+#include <sstream>
 
 // misto reprezentuje gen jako zbiór bitów o wielkości zależnej od ilości miast
 class City {
@@ -24,7 +25,15 @@ public:
 	int getId() const {
 		return id;
 	}
-	std::string ToString();
+
+	std::string ToString() {
+		std::stringstream ss;
+		std::string result;
+		ss << this->id;
+		ss >> result;
+		return result;
+	}
+
 	friend bool operator<(const City &left, const City &right) {
 		return left.id < right.id;
 	}

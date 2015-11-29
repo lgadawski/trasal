@@ -77,7 +77,6 @@ public:
 	void AddEdge(std::pair<std::pair<City, City>, int> edge) {
 		cityDistanceMap.insert(edge);
 	}
-	;
 
 	static bool WriteMapToFile(std::string path, Map& m);
 	static std::shared_ptr<Map> ReadMapFromFile(std::string path);

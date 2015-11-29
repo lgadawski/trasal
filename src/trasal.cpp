@@ -16,9 +16,9 @@ int main(int ac, char* av[]) {
 	Configuration conf = Configuration::ReadFromFile("conf/app.properties");
 	cout << " POPULATION SIZE: " << conf.GetPopulationSize() << endl;
 
-	auto map = shared_ptr<Map>(Map::ConstructMapOfSize(50, 1, 100));
+	auto map = shared_ptr<Map>(Map::ConstructMapOfSize(500, 1, 100));
 //	auto map = shared_ptr<Map>(Map::ReadMapFromFile("conf/mapa.txt"));
-	map->print();
+//	map->print();
 
 	GeneticAlgorithm g(map, conf);
 	g.Perform();

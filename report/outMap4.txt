@@ -1,0 +1,59 @@
+POPULATION SIZE: 30
+
+map size: 4
+nodes:0 1 2 3 
+m[first city: 0 sec city: 1] = 100
+m[first city: 0 sec city: 2] = 10
+m[first city: 0 sec city: 3] = 10
+m[first city: 1 sec city: 2] = 20
+m[first city: 1 sec city: 3] = 70
+m[first city: 2 sec city: 3] = 50
+
+
+Initial population initialization time: 7154 microseconds
+
+START reproduce
+
+GA debug: 0
+
+START reproduce
+ ~population 
+ ~population 
+0 'st generation production time: 22464 microseconds
+
+GA debug: 1
+
+START reproduce
+ ~population 
+1 'st generation production time: 14053 microseconds
+
+GA debug: 2
+
+START reproduce
+ ~population 
+2 'st generation production time: 9021 microseconds
+
+GA debug: 3
+
+START reproduce
+ ~population 
+3 'st generation production time: 362 microseconds
+
+GA debug: 4
+
+START reproduce
+ ~population 
+4 'st generation production time: 339 microseconds
+
+GA debug: 5
+
+START reproduce
+ ~population 
+5 'st generation production time: 357 microseconds
+
+whole loop time 46596
+
+ END: 3->0->2->1
+
+PAth LEN: 110
+ ~population 

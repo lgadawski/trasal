@@ -21,8 +21,8 @@ Individual::Individual(const shared_ptr<Map> spm) :
 }
 
 long Individual::GetLength() const {
-	if (length != -1)
-		return length;
+//	if (length != -1)
+//		return length;
 	length = 0;
 	for (auto it = path.begin(); it != path.end();) {
 		auto prev_it = it++;
@@ -31,6 +31,7 @@ long Individual::GetLength() const {
 			length += dist;
 		}
 	}
+	length+=map.get()->getDistanceBetween(path.back(), path.front());
 
 	return length;
 }
@@ -43,8 +44,8 @@ boost::optional<pair<Individual, Individual>> Individual::RandomlyCrossover(
 	if (randomutils::RandBetween(0, crossoverInPromiles) < crossoverInPromiles) {
 		Individual new_individual_1 = Individual(*this);
 		Individual new_individual_2 = Individual(second);
-		cout << "IND1 " << new_individual_1 << endl;
-		cout << "IND2 " << new_individual_2 << endl;
+//		cout << "IND1 " << new_individual_1 << endl;
+//		cout << "IND2 " << new_individual_2 << endl;
 		new_individual_1.resetPath();
 		new_individual_2.resetPath();
 

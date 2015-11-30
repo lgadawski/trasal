@@ -87,7 +87,7 @@ public:
 	}
 
 	friend ostream & operator<<(ostream &os, const Individual &ind) {
-		cout << "Individual size: " << ind.path.size() << ", path: ";
+//		cout << "Individual size: " << ind.path.size() << ", path: ";
 		int size = ind.path.size() - 1;
 		for (int i = 0; i < size; i++) {
 			os << ind.path[i] << "->";

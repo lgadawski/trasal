@@ -86,9 +86,9 @@ Operacja mutacji wykonywana jest z określoną wartością prawdopodobieństwa, 
 Operacja krzyżowania również ma na celu wprowadzenie różnorodności w osobnikach w kolejnych pokoleniach. Jest wykonywana z określoną wartością prawdopodobieństwa, która jest parametrem algorytmu. Wszystkie osobniki w populacji są dobierane w pary. Następnie dla każdej z pary zgodnie z parametrem jest podejmowana decyzja o dokonaniu operacji krzyżowania. W dalszej kolejności losowane zostają indeksy krzyżowania. Elementy osobników pomiędzy tymi indeksami zostają zamienione między osobnikami. A elementy osobników znajdujące się poza indeksami zostają przepisane począwszy od wylosowanego indeksu. Geny(miasta), które już znajdują się w osobniku są pomijane. T gwarantuje że osobnik po krzużowaniu będzie osobnikiem prawidłowym (każge miasto będzie odwiedzone tylko raz).
 
 \section{Implementacja}
-
+\overfullrule=2cm
 \subsection{Tworzenie mapy miast}
-W naszej implementacji mapa została odwzorowana jako obiekt posiadający wielkość, zbiór miast oraz strukturę danych \textit{mapa} gdzie kluczem jest para miasto-miasto oraz odległość między taką na mapie.
+W naszej implementacji mapa została odwzorowana jako obiekt posiadający wielkość, zbiór miast oraz strukturę danych \textit{mapa} gdzie kluczem jest para miasto - miasto oraz odległość między taką na mapie.
 
 \subsubsection{Wczytanie z pliku}
 Mapę odległości między miastami można odczytać z pliku tekstowego o strukturze przedstawionej poniżej. W pierwszej linii pliku znajdują się wierzchołki grafu oddzielone tabulatorami. W kolejnych liniach znajdują się krawędzie grafu(po jednej krawędzi na linię) w postacie wierzchołek - wierzchołek - wartość. Separatorem w pliku jest tabulator. Przykład pliku przedstawiono poniżej.
@@ -238,13 +238,13 @@ Kolejnym etapem testów było przetestowanie efektywności zrównoleglenia kodu.
 
 
 \begin{figure}[H]
-\includegraphics[scale=0.2]{zrzutSequence.png}
+\includegraphics[scale=0.18]{zrzutSequence.png}
 \centering
 \caption{\label{diagramSequence}Diagram przedstawiający zużycie wątków przy wykonaniu sekwencyjnym}
 \end{figure}
 
 \begin{figure}[H]
-\includegraphics[scale=0.2]{zrzutParallel.png}
+\includegraphics[scale=0.18]{zrzutParallel.png}
 \centering
 \caption{\label{diagramParallel}Diagram przedstawiający zużycie wątków przy wykonaniu zrównoleglonym}
 \end{figure}
@@ -260,7 +260,9 @@ Sequential: whole_time = 16281865 microseconds
 Następują niewielkie wahania współczynnika przyspieszenia, ale generalnie utrzymuje się on na poziomie około 3 (trzyktortne przyspieszenie po użyciu dyrektyw OpenMP)
 
 \section{Wnioski}
-
+	
 \section{Podsumowanie}
-
+Stosując narzędzia profilujące napisany algorytm ustalono, że najwięcej mocy obliczeniowej procesora jest zużywane podczas operacji krzyżowania dokonywanej na populacji. Z racji tego że krzyżowanie każdej pary osobników odbywa się niezależnie od pozostałych to miejsce wydało się naturalnym kandydatem aby dokonać próby zrównoleglenia.  Kolejnym miejscem które zrównoleglono było mutowanie populacji i tworzenie losowej populacji na podstawie mapy miast. Po dokonaniu zrównoleglenia nastąpiło około trzykrotne zwiększenie szybkości algorytmu.\\
+Podjęto również próby zrównoleglenia operacji krzyżowania na poziomie osobnika, ale nie przyniosły one widocznych rezultatów, w związku z czym zrezygnowano z nich. 
+	
 \end{document}

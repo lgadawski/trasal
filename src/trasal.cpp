@@ -16,12 +16,19 @@ int main(int ac, char* av[]) {
 	Configuration conf = Configuration::ReadFromFile("conf/app.properties");
 	cout << " POPULATION SIZE: " << conf.GetPopulationSize() << endl;
 
-	auto map = shared_ptr<Map>(Map::ConstructMapOfSize(500, 1, 100));
-//	auto map = shared_ptr<Map>(Map::ReadMapFromFile("report/mapa5.txt"));
-//	map->print();
+	if(ac == 1){
+		auto map= shared_ptr<Map>(Map::ConstructMapOfSize(500, 1, 100));
 
-	GeneticAlgorithm g(map, conf);
-	g.Perform();
+		GeneticAlgorithm g(map, conf);
+		g.Perform();
+	}else{
+		auto map = shared_ptr<Map>(Map::ReadMapFromFile(av[1]));
+		map->print();
+		GeneticAlgorithm g(map, conf);
+		g.Perform();
+	}
+
+
 
 	return 0;
 }

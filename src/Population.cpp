@@ -9,7 +9,7 @@ Population::Population(const shared_ptr<Map> amap, const int apopSize) :
 		map(amap), population_size(apopSize) {
 
 	individuals.resize(population_size);
-	#pragma omp parallel for
+//	#pragma omp parallel for
 	for (int var = 0; var < population_size; ++var) {
 		Individual *i = new Individual(map);
 		individuals[var] = *i;
@@ -64,7 +64,7 @@ void Population::RandomlyCrossover(const double crossoverPropability) {
 	individuals.clear();
 
 	individuals.resize(pairs.size());
-	#pragma omp parallel for
+//	#pragma omp parallel for
 	for (int i = 0; i < pairs.size(); ++i) {
 		auto opt = pairs[i].first.RandomlyCrossover(crossoverPropability, pairs[i].second);
 		if (opt) {
@@ -89,7 +89,7 @@ void Population::RandomlyMutate(const double mutatePropability) {
 	individuals.clear();
 
 	individuals.resize(result.size());
-	#pragma omp parallel for
+//	#pragma omp parallel for
 	for (int i = 0; i < result.size(); ++i) {
 		auto opt = result[i].RandomlyMutate(mutatePropability);
 		if (opt) {
@@ -110,13 +110,13 @@ Individual Population::GetBestIndividual() {
 int Population::GetAdaptationSumLen() const {
 	auto result = 0;
 
-	#pragma omp parallel
-	{
-		#pragma omp for reduction(+:result)
+//	#pragma omp parallel
+//	{
+//		#pragma omp for reduction(+:result)
 		for (int i = 0; i < individuals.size(); ++i) {
 			result += individuals[i].GetLength();
 		}
-	}
+//	}
 
 	return result;
 }
@@ -124,13 +124,13 @@ int Population::GetAdaptationSumLen() const {
 int Population::GetPropabDivision(int sum) const {
 	auto result = 0;
 
-	#pragma omp parallel shared(sum)
-	{
-		#pragma omp for reduction(+:result)
+//	#pragma omp parallel shared(sum)
+//	{
+//		#pragma omp for reduction(+:result)
 		for (int i = 0; i < individuals.size(); ++i) {
 			result += (sum - individuals[i].GetLength());
 		}
-	}
+//	}
 
 	return result;
 }

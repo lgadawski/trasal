@@ -7,40 +7,83 @@
 \usepackage{graphicx}
 \usepackage{verbatim}
 \usepackage{minted}
+\usepackage{amsmath}
+\usepackage{algorithm}
+\usepackage[noend]{algpseudocode}
+
+\makeatletter
+\def\BState{\State\hskip-\ALG@thistlm}
+\makeatother
 
 \author{Onaszkiewicz Przemysław, Gadawski Łukasz}
-\title{Rozwiązanie zadania komiwojażera przy pomocy algorytmu genetycznego. - wersja sekwencyjna działająca na pojedynczym procesorze.}
+\title{Rozwiązanie zadania komiwojażera przy pomocy algorytmu genetycznego. \\ 1) Wersja sekwencyjna i zrównoleglona \\ (pamięć wspólna).}
 
 \begin{document}
 \maketitle
 
 \section{Cel zadania}
-Celem pierwszego etapu projektu jest implementacja wersji sekwencyjnej algorytmu genetycznego działającego na pojedynczym procesorze do rozwiązywania problemu komiwojażera.
+Celem pierwszego etapu projektu jest implementacja wersji sekwencyjnej algorytmu genetycznego działającego na pojedynczym procesorze do rozwiązywania problemu komiwojażera. A także zastosowanie dyrektyw \textit{OpenMP} w celu dokonania zrównoleglenia wykonania algorytmu na wielu procesorach z pamięcią wspólną.
 
 \section{Problem komiwojażera}
-Problem zdefiniowany jest następująco: mając listę miast oraz odległości między nimi, znajdź najkrótszą, dozwoloną drogę (początkiem oraz końcem drogi jest ten sam wierzchołek), zawierającą każde miasto dokładnie raz. Inaczej problem polega na znalezieniu minimalnego cyklu Hamiltona w pełnym grafie ważonym. Problem należy do zbioru problemów NP-trudnych.
+Problem zdefiniowany jest następująco: mając listę miast oraz odległości między nimi, znajdź najkrótszą, dozwoloną drogę (początkiem oraz końcem drogi jest ten sam wierzchołek), zawierającą każde miasto dokładnie raz. Przy czym można zacząć od dowolnego miasta oraz kolejność miast jest dowolna. Inaczej problem polega na znalezieniu minimalnego cyklu Hamiltona w pełnym grafie ważonym. Problem należy do zbioru problemów NP-trudnych.
 
 \section{Algorytm genetyczny}
-W 1975 roku przez Johna Hollanda został wynaleziony algorytm genetyczny, którego zadaniem było działanie analogiczne do procesu ewolucji na ziemi. Pseudokod prostego algorytmu genetycznego (ang. \textit{Simple Genetic Algorithm}) został przedstawiony poniżej:
-\begin{minted}{bash}
-procedure "Simple Genetic Algorithm"
-begin 
-	t := 0
-	initilize P^{t}
-	evaluate P^{t}
-	while (not stop_condition)
-	begin
-		O^{t} = reproduce P^{t}
-		crossover O^{t}
-		mutate O^{t}
-		evaluate O^{t}
-		P^{t + 1} := O^{t}
-		t := t + 1
-	end
-end
-\end{minted}
+W 1975 roku przez Johna Hollanda został wynaleziony algorytm genetyczny, którego zadaniem było działanie analogiczne do procesu ewolucji na ziemi. Pseudokod prostego algorytmu genetycznego (ang. \textit{Simple Genetic Algorithm}) został przedstawiony w pseudokodzie \textit{Algotithm 1}.
 
-$sum - $
+\begin{algorithm}
+\caption{Simple Genetic Algorithm}\label{euclid}
+\begin{algorithmic}[1]
+\Procedure{Simple Genetic Algorithm}{}
+
+\State $\textit{t} \gets \text{0}$
+\State $\text{initilize } P^{t}$
+\State $\text{evaluate } P^{t}$
+
+\BState \emph{while (\textbf{not stop\_condition})}:
+\State $O^{t} \gets \text{reproduce } P^{t}$
+\State $\text{crossover } O^{t}$
+\State $\text{mutate } O^{t}$
+\State $\text{evaluate } O^{t}$
+\State $P^{t + 1} \gets O^{t}$
+\State $t \gets t + 1$
+
+\EndProcedure
+\end{algorithmic}
+\end{algorithm}
+%\begin{minted}{bash}
+%procedure "Simple Genetic Algorithm"
+%begin 
+%	t := 0
+%	initilize P^{t}
+%	evaluate P^{t}
+%	while (not stop_condition)
+%	begin
+%		O^{t} = reproduce P^{t}
+%		crossover O^{t}
+%		mutate O^{t}
+%		evaluate O^{t}
+%		P^{t + 1} := O^{t}
+%		t := t + 1
+%	end
+%end
+%\end{minted}
+
+Sterowanie algorytmem genetycznym odbywa się poprzez warunek stopu, którym może być satysfakcjonująca wartość funkcji celu lub ilość generacji. Typowy algorytm genetyczny rozpoczyna się inicjacją populacji wstępnej. W przypadku problemu komiwojażera \textbf{populacją} będzie lista osobników, natomiast każdy \textbf{osobnik} będzie konkretną listą miast, czyli jednym ze stanów z całej przestrzeni stanów. W przypadku problemu komiwojażera przestrzenią stanów jest zbiór wszystkich możliwych kombinacji dróg pomiędzy miastami. Następnie dokonywana jest ocena wartości każdego osobnika w populacji. W naszym przypadku będzie to obliczenie drogi każdego z zainicjowanych stanów. Kolejno następuje \textit{reprodukcja} populacji, która zostanie opisana dokładniej w kolejnym punkcie. Następnie wykonywane są operacje krzyżowania oraz mutacji, czyli "urozmaicanie" aktualnej populacji, a w dalszej części wytypowanie populacji, która będzie stanowiła listę najlepszych osobników do reprodukcji w kolejnej generacji.
+
+\subsection{Reprodukcja}
+Reprodukacja polega na wytypowaniu osobników do populacji potomnych, ale tak aby preferować osobniki lepiej przystosowane, czyli posiadające lepszą wartość funkcji przystosowania. Ocena jakości osobników dokonywana jest na podstawie funkcji przystosowania. W przypadku problemu komiwojażera mniejsza droga jest lepszym rezultatem, a zatem dąży się do minimalizacji drogi, którą reprezentuje każdy osobnik. Podczas reprodukcji następuje losowy wybór osobników do populacji potomnej, ale prawdopodobieństwo wylosowania każdego z nich nie jest jednakowe. W przypadku osobników lepiej przystosowanych występuje większe prawdopodobieństwo. Wartość prawdopodobieństwa obliczana jest zgodnie z następującym wzorem: \\
+
+$p_i = \frac{len\_sum - len_i}{\sum_{i}^{I} (len\_sum - x_i)}$, gdzie \\ \\
+$len\_sum$ - suma długości wszystkich osobników w populacji, \\
+$len_i$ - długość i-tego osobnika, dla którego jest liczone prawdopodobieństwo,
+
+Następnie mając prawdopodobieństwa osobników w populacji następuje obliczenie dystrybuanty prawdopodobieństwa. Podczas losowania osobników następuje losowanie liczby z przedziału $(0.00, 1.00)$, a następnie wybranie osobnika, który odpowiada danej wartości dystrybuanty. Taki dobór nazywany jest selekcją ruletkową (ang. \textit{round-wheel selection}).
+
+\subsection{Mutacja}
+Operacja mutacji wykonywana jest z określoną wartością prawdopodobieństwa, która jest parametrem algorytmu. Zgodnie z prawdopodobieństwem podejmowana jest decyzja o zmutowania konkretnego osobnika. Proces polega na losowej zamianie pozycji dwóch miast w początkowej liście miast. Dzięki temu zostaje wprowadzone całkowicie losowe zróżnicowanie dwóch osobników. Przeważnie wartość tego parametru ustawiona jest na niską wartość, tak aby wprowadzać różnorodność w każdym pokoleniu, ale aby również nie zakłócać polepszania wartości funkcji dostosowania w pokoleniu.
+
+\subsection{Krzyżowanie}
+Operacja krzyżowania również ma na celu wprowadzenie różnorodności w osobnikach w kolejnych pokoleniach. Jest wykonywana z określoną wartością prawdopodobieństwa, która jest parametrem algorytmu. Wszystkie osobniki w populacji są dobierane w pary. Następnie dla każdej z pary zgodnie z parametrem jest podejmowana decyzja o dokonaniu operacji krzyżowania. W dalszej kolejności losowany zostaje indeks krzyżowania. Zgodnie z tym indeksem pierwsza część chromosomu, czyli listy miast, jest zachowywana, natomiast druga część listy miast jest zastępowana wzajemnie z drugim osobnikiem z pary.
 
 \section{Implementacja}
 

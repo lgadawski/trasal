@@ -250,6 +250,16 @@ Kolejnym etapem testów było przetestowanie efektywności zrównoleglenia kodu.
 \end{figure}
 
 
+\section{Wnioski}
+W celu zbadania najbardziej pracochłonnych części programu dokonano profilowania aplikacji przy użyciu programu \textit{callgrid}. Operacją, która trwa najdłużej jest krzyżowanie osobników. Dyrektywy \textit{OpenMP} w celu zrównoleglenia pętli zostały dodane w następujących miejscach:
+\begin{itemize}
+\item[--] operacja krzyżowania,
+\item[--] operacja mutacji,
+\item[--] obliczanie funkcji przystosowania dla osobników populacji,
+\item[--] obliczanie prawdopodobieństwa osobnika do mechanizmu selekcji ruletkowej,
+\item[--] konstruktor populacji - następuje w tym miejscu inicjalne tworzenie listy osobników na podstawie mapy miast na początku działania algorytmu.
+\end{itemize}
+
 Zrównoleglenie algorytmu za pomozą dyrektyw OpenMP powoduje około trzykrotne zmniejszenie czasu wykonania programu. Pliki wynikowe outSequence.txt i outParallel.txt przedstawiają Wyjście algorytmu w formie sekwencyjnej i zrównoleglonej Ze względu na ich długość poniżej zostały przedstawione niewielnie, lecz najważniejsze wycinki.
 
 \begin{minted}{bash}
@@ -259,8 +269,6 @@ Sequential: whole_time = 16281865 microseconds
 
 Następują niewielkie wahania współczynnika przyspieszenia, ale generalnie utrzymuje się on na poziomie około 3 (trzyktortne przyspieszenie po użyciu dyrektyw OpenMP)
 
-\section{Wnioski}
 
-\section{Podsumowanie}
 
 \end{document}

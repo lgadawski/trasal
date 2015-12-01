@@ -64,7 +64,7 @@ void Population::RandomlyCrossover(const double crossoverPropability) {
 	individuals.clear();
 
 	individuals.resize(pairs.size());
-//	#pragma omp parallel for
+	#pragma omp parallel for
 	for (int i = 0; i < pairs.size(); ++i) {
 		auto opt = pairs[i].first.RandomlyCrossover(crossoverPropability, pairs[i].second);
 		if (opt) {
@@ -146,7 +146,7 @@ Individual Population::GetIndividualBySeq(int seq) const {
 }
 
 shared_ptr<Population> Population::Reproduce() {
-	cout << endl << "START reproduce" << endl;
+//	cout << endl << "START reproduce" << endl;
 	int sum = GetAdaptationSumLen();
 	double cumulative_distribution = 0.0;
 	// sum_sum_x_i, where: propab = (len_sum - x) / (sum(len_sum - x_i))

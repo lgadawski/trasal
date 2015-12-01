@@ -14,21 +14,37 @@ using namespace std;
 
 int main(int ac, char* av[]) {
 	Configuration conf = Configuration::ReadFromFile("conf/app.properties");
-	cout << " POPULATION SIZE: " << conf.GetPopulationSize() << endl;
 
-	if(ac == 1){
-		auto map= shared_ptr<Map>(Map::ConstructMapOfSize(500, 1, 100));
+	auto c1 = Configuration(50, 0.2, 0.01, 10);
+	auto c2 = Configuration(100, 0.2, 0.01, 10);
+	auto m1 = shared_ptr<Map>(Map::ConstructMapOfSize(100, 1, 100));
+	auto m2 = shared_ptr<Map>(Map::ConstructMapOfSize(200, 1, 100));
+	auto m3 = shared_ptr<Map>(Map::ConstructMapOfSize(500, 1, 100));
 
-		GeneticAlgorithm g(map, conf);
-		g.Perform();
-	}else{
-		auto map = shared_ptr<Map>(Map::ReadMapFromFile(av[1]));
-		map->print();
-		GeneticAlgorithm g(map, conf);
-		g.Perform();
-	}
+//	GeneticAlgorithm g11(m1, c1);
+//	g11.Perform();
+	GeneticAlgorithm g12(m1, c2);
+	g12.Perform();
+//	GeneticAlgorithm g21(m2, c1);
+//	g21.Perform();
+//	GeneticAlgorithm g22(m2, c2);
+//	g22.Perform();
+//	GeneticAlgorithm g31(m3, c1);
+//	g31.Perform();
+//	GeneticAlgorithm g32(m3, c2);
+//	g32.Perform();
 
-
+//	if(ac == 1){
+//		auto map= shared_ptr<Map>(Map::ConstructMapOfSize(1000, 1, 100));
+//
+//		GeneticAlgorithm g(map, conf);
+//		g.Perform();
+//	}else{
+//		auto map = shared_ptr<Map>(Map::ReadMapFromFile(av[1]));
+//		map->print();
+//		GeneticAlgorithm g(map, conf);
+//		g.Perform();
+//	}
 
 	return 0;
 }

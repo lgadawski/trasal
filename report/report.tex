@@ -422,9 +422,10 @@ Następują niewielkie wahania współczynnika przyspieszenia, ale generalnie ut
 \subsection{Wnioski z przeprowadzonych testów}
 Większa ilość testów przeprowadzonych na algorytmie z różnymi parametrami znajduje się w sekcji \ref{sec:wt}. Wnioski wysnute na jej podstawie można przedstawić następująco. 
 \begin{itemize}
-\item Wraz ze wzrostem ilości wątków czas wykonania programu ulega skróceniu.
-\item Kiedy liczba miast jest znacznie większa od wielkoąci populacji wyniki zrównoleglenia dają zadowalające rezultaty, za to kiedy wielkość populacji jest porównywalna l liczbą miast w danym osobniku zrównoleglenie nie odnosi wielkiego skutku
-\item Powodem takich wyników jest fakt że aplikacja jest zrównoleglona na poziomie populacji(czyli osobniki w populacji są przetwarzane równocześnie, ale jednocześnie każdy osobnik jest krzyżowany sekwencyjnie przez jeden wątek). Sprawia to, że im dłuższy osobnik wzglęgem rodzaju populacji tym zrównoleglenie jest efektywniejsze.
+\item Zgodnie z oczekiwaniami wraz ze wzrostem ilości wątków czas wykonania programu ulega skróceniu.
+\item Kiedy liczba miast jest znacznie większa od wielkości populacji wyniki zrównoleglenia dają zadowalające rezultaty, za to kiedy wielkość populacji jest porównywalna z liczbą miast w danym osobniku zrównoleglenie nie odnosi wielkiego skutku
+\item Powodem takich wyników jest fakt że aplikacja jest zrównoleglona na poziomie populacji(czyli osobniki w populacji są przetwarzane równocześnie, ale jednocześnie każdy osobnik jest krzyżowany sekwencyjnie przez jeden wątek). Sprawia to, że im dłuższy osobnik względem rodzaju populacji tym zrównoleglenie jest efektywniejsze. 
+\item Wraz z powiększeniem wymiaru problemu przez zwiększenie liczby miast zrównoleglenie wykonania algorytmu powoduje lepsze rezultaty, ponieważ stosunek najbardziej pracochłonnych fragmentów programu, w których zastosowano dyrektywy OpenMP w celu zrównoleglenia, do reszty programu jest większy niż w przypadku małych problemów. 
 \item Metoda koła ruletki powoduje,że wraz ze wzrostem liczby pokoleń algorytm ewoluuje coraz wolniej (dochodzi do powolnej stagnacji).
 \end{itemize}
 

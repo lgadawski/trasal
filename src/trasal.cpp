@@ -23,16 +23,16 @@ int main(int ac, char* av[]) {
 
 //	GeneticAlgorithm g11(m1, c1);
 //	g11.Perform();
-	GeneticAlgorithm g12(m1, c2);
-	g12.Perform();
+//	GeneticAlgorithm g12(m1, c2);
+//	g12.Perform();
 //	GeneticAlgorithm g21(m2, c1);
 //	g21.Perform();
 //	GeneticAlgorithm g22(m2, c2);
 //	g22.Perform();
 //	GeneticAlgorithm g31(m3, c1);
 //	g31.Perform();
-//	GeneticAlgorithm g32(m3, c2);
-//	g32.Perform();
+	GeneticAlgorithm g32(m3, c2);
+	g32.Perform();
 
 //	if(ac == 1){
 //		auto map= shared_ptr<Map>(Map::ConstructMapOfSize(1000, 1, 100));

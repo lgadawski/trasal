@@ -186,3 +186,15 @@ shared_ptr<Population> Population::Reproduce() {
 
 	return result;
 }
+
+long Population::GetDifferenceBetweenBestAndWorstIndividual(){
+	long best=std::numeric_limits<long>::min(), worst=std::numeric_limits<long>::max();
+	for(int i=0; i<individuals.size(); i++){
+		if(individuals[i].GetLength()>best){
+			best=individuals[i].GetLength();
+		}
+		if(individuals[i].GetLength()<worst){
+			worst=individuals[i].GetLength();
+		}
+	}
+}

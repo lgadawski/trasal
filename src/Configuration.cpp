@@ -17,6 +17,8 @@ Configuration& Configuration::ReadFromFile(string file_name) {
 			if (PROP_OF_CROSS.compare(param_name) == 0) c->SetPropabilityOfCrossover(stod(value));
 			if (PROP_OF_MUT.compare(param_name) == 0) c->SetPropabilityOfMutation(stod(value));
 			if (GEN_NUMBER.compare(param_name) == 0) c->SetGenerationNumber(stoi(value));
+			if (GEN_NUMBER.compare(param_name) == 0) c->SetGenerationNumber(stoi(value));
+			if (EPSILON.compare(param_name) == 0) c->SetEpsilon(stoi(value));
 		}
 		file.close();
 	}

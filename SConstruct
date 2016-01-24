@@ -1,7 +1,15 @@
-env = Environment(CXX =
-# 'clang++-3.5'
-'g++'
-)
+mpi = ARGUMENTS.get('mpi', 0)
+if int(mpi) :
+	env = Environment(CXX =
+	'mpic++'
+	
+	)
+else :
+	env = Environment(CXX =
+	'g++'
+	)
+
+omp = ARGUMENTS.get('omp', 0)
 
 env.Append(CXXFLAGS = [
 '-std=c++14'
@@ -14,22 +22,21 @@ env.Append(CPPPATH = [
 '/usr/local/include'
 ])
 
-# Add compile-time flags
 env.Append(CCFLAGS = [
-'-fopenmp',
-'-Wall',
-'-g',
-'-pedantic',
-'-fdiagnostics-color=always',
-'-fopenmp'
-])
+	'-Wall',
+	'-g',
+	'-pedantic',
+	'-fdiagnostics-color=always',
+	])
+
+# Add compile-time flags
+if int(omp):
+	env.Append(CCFLAGS = [
+	'-fopenmp',
+	])
 
 env.Append(LINKFLAGS = [
-'-fopenmp'
-])
-
-env.Append(LINKFLAGS = [
-'-fopenmp'
+	'-fopenmp'
 ])
 
 # libraries to link against

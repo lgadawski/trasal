@@ -36,6 +36,7 @@ public:
 	std::vector<Individual> GetIndividualList() {
 		return individuals;
 	}
+	long GetDifferenceBetweenBestAndWorstIndividual();
 };
 
 #endif /* POPULATION_H_ */

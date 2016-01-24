@@ -15,8 +15,8 @@ using namespace std;
 int main(int ac, char* av[]) {
 	Configuration conf = Configuration::ReadFromFile("conf/app.properties");
 
-	auto c1 = Configuration(50, 0.2, 0.01, 10);
-	auto c2 = Configuration(100, 0.2, 0.01, 10);
+	auto c1 = Configuration(50, 0.2, 0.01, 10, 100000);
+	auto c2 = Configuration(100, 0.2, 0.01, 10, 100000);
 	auto m1 = shared_ptr<Map>(Map::ConstructMapOfSize(100, 1, 100));
 	auto m2 = shared_ptr<Map>(Map::ConstructMapOfSize(200, 1, 100));
 	auto m3 = shared_ptr<Map>(Map::ConstructMapOfSize(500, 1, 100));

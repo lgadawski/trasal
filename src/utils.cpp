@@ -1,10 +1,10 @@
-#include "City.h"
+#include "utils.h"
 #include <iostream>
 #include <random>
 #include <exception>
 #include <memory>
 #include <vector>
-#include "utils.h"
+#include "City.h"
 
 using namespace std;
 

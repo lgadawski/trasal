@@ -5,6 +5,23 @@
 using namespace std;
 using namespace boost;
 
+Population::Population(const int* population, const int* adjMatrix, int popSize, int indivSize){
+	//TODO po
+	this->population_size = popSize;
+	this->map = Map(population, adjMatrix, popSize, indivSize);
+
+	for(int i = 0 ; i<popSize; i++){
+		Individual ind=Individual();
+		for(int c = 0 ; c < indivSize ; c++){
+			//TODO uzupelnic tworzenie individuala na posstawie listy
+			c++;
+		}
+		this->individuals.push_back(ind);
+	}
+
+
+}
+
 Population::Population(const shared_ptr<Map> amap, const int apopSize) :
 		map(amap), population_size(apopSize) {
 

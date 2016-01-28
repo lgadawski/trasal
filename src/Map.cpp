@@ -11,6 +11,21 @@
 
 using namespace std;
 
+Map::Map(int* popul, int* adjMatrix, int populSize, int indSize){
+	shared_ptr<Map> spm(new Map());
+	for (uint i = 1; i <= indSize; i++) {
+				spm->AddCity(City(i));
+	}
+	for (uint i = 0; i < populSize; i++) {
+		for (uint p = 0; i < indSize; i++) {
+			pair<City, City> cp(i+1, p+1);
+			pair<pair<City, City>, int> edge(cp, adjMatrix[i*p]);
+			spm->AddEdge(edge);
+
+		}
+	}
+}
+
 shared_ptr<Map> Map::ReadMapFromFile(string path) {
 	ifstream ifs(path.c_str());
 	if (ifs.is_open()) {
@@ -163,4 +178,6 @@ int Map::getDistanceBetween(const City & c1, const City & c2) {
 
 	return found->second;
 }
+
+
 

@@ -18,7 +18,7 @@ public:
 	Population(const std::vector<Individual> aindividuals,
 			const std::shared_ptr<Map> amap, const int apopulation_size);
 	Population(const std::shared_ptr<Map> amap, const int apopSize);
-
+	Population(const int* population, const int* adjMatrix, int popSize, int indivSize);
 	virtual ~Population() {
 		std::cout << " ~population "<<endl;;
 	}

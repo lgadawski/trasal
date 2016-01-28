@@ -34,6 +34,7 @@ public:
 	Map(int amapSize) :
 			mapSize(amapSize) {
 	}
+	Map::Map(int* popul, int* adjMatrix, int populSize, int indSize);
 
 	virtual ~Map() {
 		std::cout << " ~map ";

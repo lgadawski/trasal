@@ -26,9 +26,13 @@ public:
 	}
 
 	Individual Perform();
+
 	shared_ptr<Map> GetMap() {
 		return map;
 	}
+
+	int* createPopulationFromMap(Map* mapa, int populationSize, int indSize);
+	shared_ptr<Population> createPopulationFromCPointer(int* population, int* adjMatrix, int popSize, int indivSize);
 	Configuration GetConfiguration() {
 		return conf;
 	}

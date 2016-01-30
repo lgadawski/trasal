@@ -40,7 +40,7 @@ public:
 	void swap_path(int first_idx, int sec_idx) {
 		std::swap(path[first_idx], path[sec_idx]);
 	}
-
+	int* convertToIntBuffer();
 	boost::optional<pair<Individual, Individual>> RandomlyCrossover(
 			const double crossoverPprobability, Individual &second);
 

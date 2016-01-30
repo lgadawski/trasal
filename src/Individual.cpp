@@ -38,6 +38,15 @@ Individual::Individual(int* indPath, int indSize, shared_ptr<Map> m){
 //	}
 
 }
+
+int* Individual::convertToIntBuffer(){
+	int* buffer = new int[this->path.size()];
+	for(int i = 0 ; i < this->path.size() ; i++){
+		buffer[i] = this->path[i].getId();
+	}
+	return buffer;
+}
+
 long Individual::GetLength() const {
 //	if (length != -1)
 //		return length;

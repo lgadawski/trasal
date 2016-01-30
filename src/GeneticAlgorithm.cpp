@@ -40,8 +40,11 @@ Individual GeneticAlgorithm::Perform() {
 	}
 
 	cout << endl << "whole loop time " << whole_time << endl;
-
+	// przesłanie najlepszego osobnika
 	auto best = initialPopulationSP.get()->GetBestIndividual();
+	int* bi = best.convertToIntBuffer();
+	// konczenie przesłania najlepszego osobnika
+
 	cout << endl << " END: ";
 	printutils::printPath(best.GetPath());
 	cout << endl << "PAth LEN: " << best.GetLength() << endl;

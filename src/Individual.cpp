@@ -20,6 +20,24 @@ Individual::Individual(const shared_ptr<Map> spm) :
 	}
 }
 
+Individual::Individual(int* indPath, int indSize, shared_ptr<Map> m){
+	this->map = m;
+	this->cum_dist = 0;
+	this->length = indSize;
+	for(int i = 0 ; i<indSize ; i++){
+		this->path.push_back(indPath[i]);
+	}
+	int dist = this->GetLength();
+	cout<<"Len: "<<dist<<endl;
+	this->cum_dist = dist;
+//	for(int i = 0 ; i<indSize-1 ; i++){
+//			City c1(path[i]);
+//			City c2(path[i+1]);
+//			int dist = this->map->getDistanceBetween(c1,c2);
+//			this->cum_dist += dist;
+//	}
+
+}
 long Individual::GetLength() const {
 //	if (length != -1)
 //		return length;

@@ -5,20 +5,26 @@
 using namespace std;
 using namespace boost;
 
-Population::Population(const int* population, const int* adjMatrix, int popSize, int indivSize){
+Population::Population(int* population,int* adjMatrix, int popSize, int indivSize){
 	//TODO po
 	this->population_size = popSize;
-	this->map = Map(population, adjMatrix, popSize, indivSize);
-
+	shared_ptr<Map> spm(new Map(population, adjMatrix, popSize, indivSize));
+	this->map= spm;
+	cout<< map->ToString();
+	cout<<endl;
+	int* p = population;
+//	for(int i = 0 ; i < popSize*indivSize ; i++){
+//		cout<<p[i]<<", ";
+//	}
+//	cout<<endl;
+//	cout<<endl;
 	for(int i = 0 ; i<popSize; i++){
-		Individual ind=Individual();
-		for(int c = 0 ; c < indivSize ; c++){
-			//TODO uzupelnic tworzenie individuala na posstawie listy
-			c++;
-		}
-		this->individuals.push_back(ind);
-	}
+//		cout<<p[0]<<p[1]<<p[2]<<p[3]<<p[4]<<endl;
+		Individual ind(p,indivSize,this->map);
 
+		this->individuals.push_back(ind);
+		p= p+indivSize;
+	}
 
 }
 

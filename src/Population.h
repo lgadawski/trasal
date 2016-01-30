@@ -12,13 +12,13 @@ private:
 
 	int GetAdaptationSumLen() const;
 	int GetPropabDivision(int sum) const;
-	Individual GetIndividualBySeq(int seq) const;
+
 	void print_summary();
 public:
 	Population(const std::vector<Individual> aindividuals,
 			const std::shared_ptr<Map> amap, const int apopulation_size);
 	Population(const std::shared_ptr<Map> amap, const int apopSize);
-	Population(const int* population, const int* adjMatrix, int popSize, int indivSize);
+	Population(int* population, int* adjMatrix, int popSize, int indivSize);
 	virtual ~Population() {
 		std::cout << " ~population "<<endl;;
 	}
@@ -27,7 +27,7 @@ public:
 	void RandomlyMutate(const double mutatePropability);
 
 	std::shared_ptr<Population> Reproduce();
-
+	Individual GetIndividualBySeq(int seq) const;
 	Individual GetBestIndividual();
 
 	int GetPopulationSize() const {

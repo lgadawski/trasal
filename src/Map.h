@@ -34,7 +34,7 @@ public:
 	Map(int amapSize) :
 			mapSize(amapSize) {
 	}
-	Map::Map(int* popul, int* adjMatrix, int populSize, int indSize);
+	Map(int* popul, int* adjMatrix, int populSize, int indSize);
 
 	virtual ~Map() {
 		std::cout << " ~map ";
@@ -78,7 +78,9 @@ public:
 	void AddEdge(std::pair<std::pair<City, City>, int> edge) {
 		cityDistanceMap.insert(edge);
 	}
-
+	std::map<std::pair<City, City>, int> getAllEdgesMap(){
+		return this->cityDistanceMap;
+	}
 	static bool WriteMapToFile(std::string path, Map& m);
 	static std::shared_ptr<Map> ReadMapFromFile(std::string path);
 };

@@ -32,7 +32,9 @@ public:
 	}
 
 	int* createPopulationFromMap(Map* mapa, int populationSize, int indSize);
+	int* createAdjMatrixFromMap(shared_ptr<Map> map);
 	shared_ptr<Population> createPopulationFromCPointer(int* population, int* adjMatrix, int popSize, int indivSize);
+
 	Configuration GetConfiguration() {
 		return conf;
 	}

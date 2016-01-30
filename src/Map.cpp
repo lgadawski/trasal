@@ -12,15 +12,15 @@
 using namespace std;
 
 Map::Map(int* popul, int* adjMatrix, int populSize, int indSize){
-	shared_ptr<Map> spm(new Map());
-	for (uint i = 1; i <= indSize; i++) {
-				spm->AddCity(City(i));
+	for (uint i = 0; i < indSize; i++) {
+				this->AddCity(City(i));
 	}
-	for (uint i = 0; i < populSize; i++) {
-		for (uint p = 0; i < indSize; i++) {
-			pair<City, City> cp(i+1, p+1);
-			pair<pair<City, City>, int> edge(cp, adjMatrix[i*p]);
-			spm->AddEdge(edge);
+	for (uint i = 0; i < indSize; i++) {
+		for (uint p = 0; p < indSize;p++) {
+			pair<City, City> cp(i, p);
+			int edgeWeight = adjMatrix[i*indSize+p];
+			pair<pair<City, City>, int> edge(cp, edgeWeight);
+			this->AddEdge(edge);
 
 		}
 	}

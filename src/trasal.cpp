@@ -15,11 +15,14 @@ using namespace std;
 int main(int ac, char* av[]) {
 	Configuration conf = Configuration::ReadFromFile("conf/app.properties");
 
-	auto c1 = Configuration(50, 0.2, 0.01, 10, 100000);
-	auto c2 = Configuration(100, 0.2, 0.01, 10, 100000);
-	auto m1 = shared_ptr<Map>(Map::ConstructMapOfSize(100, 1, 100));
-	auto m2 = shared_ptr<Map>(Map::ConstructMapOfSize(200, 1, 100));
-	auto m3 = shared_ptr<Map>(Map::ConstructMapOfSize(500, 1, 100));
+//	auto c1 = Configuration(50, 0.2, 0.01, 10, 100000);
+//	auto c2 = Configuration(100, 0.2, 0.01, 10, 100000);
+	auto c3 = Configuration(10,0.5,0.01,10, 100000);
+
+//	auto m1 = shared_ptr<Map>(Map::ConstructMapOfSize(100, 1, 100));
+//	auto m2 = shared_ptr<Map>(Map::ConstructMapOfSize(200, 1, 100));
+//	auto m3 = shared_ptr<Map>(Map::ConstructMapOfSize(500, 1, 100));
+	auto m4 = shared_ptr<Map>(Map::ReadMapFromFile("report/mapa5.txt"));
 
 //	GeneticAlgorithm g11(m1, c1);
 //	g11.Perform();
@@ -31,7 +34,7 @@ int main(int ac, char* av[]) {
 //	g22.Perform();
 //	GeneticAlgorithm g31(m3, c1);
 //	g31.Perform();
-	GeneticAlgorithm g32(m3, c2);
+	GeneticAlgorithm g32(m4, c3);
 	g32.Perform();
 
 //	if(ac == 1){

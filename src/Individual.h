@@ -32,7 +32,7 @@ public:
 					copy.propability), cum_dist(copy.cum_dist) {
 		this->path = copy.GetPath();
 	}
-
+	Individual(int* indPath, int indSize, shared_ptr<Map>);
 	virtual ~Individual() {
 //		std::cout << " ~individual ";
 	}

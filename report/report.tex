@@ -399,10 +399,10 @@ LICZBA  WĄTKÓW & LICZBA  MIAST & WIELKOŚĆ  POPULACJI & LICZBA POKOLEŃ & CZA
     \end{subfigure}
     \caption{Fragmenty schematu ilustrującego zużycie rdzeni procesora przy użyciu (\ref{fig:33-1}) 1 wątku, (\ref{fig:33-2}) 2 wątków, (\ref{fig:33-4}) 4 wątków, (\ref{fig:33-8}) 8 wątków przy 500 miastach i wielkości populacji równej 100 (czwarte 4 wiersze tabeli)}\label{fig:33}. 
 \end{figure}
-\section{Implementacja OpenMPI}
- OpenMPI jest narzędziem które wspiera przesyłanie danych w formacie C. Czyli tablic danych określonego typu. Dodatkowo tablice muszą być jednowymiarowe. Kod programu napisany został w języku Cpp zgodnie z obiektowym paradygmatem programowania, więc, aby uniknąć przepisywania całości kodu na programowanie strukturalne postanowiliśmy w OpenMPI zastosować zrównoleglenie dziedziny problemu. 
-\subsection{Zrównoleglenie dziedziny problemu}
-W algorytmie genetycznym zostaje na podstawie mapy tworzona populacja osobników. W celu zrównoleglenia postanowiliśmy dzielić populacje na kilka mniejszych, a następnie każdą z nich podawać na wejście algorytmu. Po zakończeniu algorytmu Najlepsze osobniki które powstały w wyniku realizacji każdego procesu są agregowane. Powstaje lista najlepszych osobników a następnie jest wybierany najlepszy z nich. Schemat zrównoleglenia jest przedstawiony na rysunku.
+\section{MPI. Implementacja OpenMPI}
+ OpenMPI jest narzędziem które wspiera przesyłanie danych w formacie C. Czyli tablic danych określonego typu. Dodatkowo tablice muszą być jednowymiarowe. Kod programu napisany został w języku C++ zgodnie z obiektowym paradygmatem programowania, więc, aby uniknąć przepisywania całości kodu na programowanie strukturalne postanowiliśmy w OpenMPI zastosować zrównoleglenie dziedziny problemu. 
+\subsection{MPI. Zrównoleglenie dziedziny problemu}
+W algorytmie genetycznym zostaje na podstawie mapy tworzona populacja osobników. W celu zrównoleglenia postanowiliśmy dzielić populacje na kilka mniejszych, a następnie każdą z nich podawać na wejście algorytmu. Po zakończeniu algorytmu najlepsze osobniki które powstały w wyniku realizacji każdego procesu są agregowane. Powstaje lista najlepszych osobników a następnie jest wybierany najlepszy z nich. Schemat zrównoleglenia jest przedstawiony na rysunku.
 
 \begin{figure}[H]
 \includegraphics[scale=0.5]{mpi_flow.png}
@@ -410,52 +410,52 @@ W algorytmie genetycznym zostaje na podstawie mapy tworzona populacja osobników
 \caption{\label{fig:flowMpi}Rysunek obrazujący sposób zrównoleglenia za pomocą MPI}
 \end{figure}
 
-\subsection{Konwersja danych do tablic jednowymiarowych}
+\subsection{MPI. Konwersja danych do tablic jednowymiarowych}
 Do przesłania danych za pośrednictwem MPI nadają się:
 \begin{itemize}
-\item typty proste
+\item typy proste
 \item jednowymiarowe tablice
-\item typy agregowane
+\item struktury danych składające się z typów prostych
 \end{itemize}
 
 Z tego powodu zespół zdecydował się na zaimplementowanie konwersji niektórych obiektów obiektów na typt proste. Były to między innymi:
 \begin{itemize}
-\item Population <-> int*
-\item Individual <-> int*
-\item Map <-> int*
-\item City <-> int
+\item Population $\leftrightarrow$ int*
+\item Individual $\leftrightarrow$ int*
+\item Map $\leftrightarrow$ int*
+\item City $\leftrightarrow$ int
 \end{itemize} 
 
 Konwersja w stronę C odbyła się poprzez dodanie do klasy GeneticAlgorithm metod przyjmujących jako argumenty obiekty, a zwracających wskaźniki do zaalokowanych tablic.
 
 Konwersja w stronę C++ odbyła się poprzez dodanie konstruktorów do odpowiednich obiektów, które jako argument przyjmują przede wszystkim wskaźnik na tablicę przechowującą reprezentację obiektu.
 
-\section{Testy MPI}
+\section{MPI. Testy}
 Testy zostały przeprowadzone na maszynie posiadającej 4 rdzeniowy procesor(2 wątki na rdzeń)
 Opis danych testowych:
 \begin{itemize}\label{opisGrafu}
 \item Graf
 \begin{itemize}
 \item liczba miast 100 
-\item wagi krawędzi w zakresie <1,100>
+\item wagi krawędzi w zakresie $<1,100>$
 \end{itemize} 
-\item wielkość populacji = 400
+\item wielkość populacji - 400
 \item liczba iteracji algorytmu - 15
 \end{itemize} 
-\subsection{Testy efektywności zrównoleglenia}
+\subsection{MPI. Testy efektywności zrównoleglenia}
 Udało się zrównoleglić czas  przetwarzania algorytmu. Wyniki przedstawiono na poniższym diagranmie.
 
 \begin{figure}[H]
-\includegraphics[scale=0.5]{mpi_wykr.png}
+\includegraphics[scale=0.8]{mpi_wykr.png}
 \centering
 \caption{\label{wykr:Mpi}Wykres obrazujący Zależność czasu wykonania algorytmu od liczby wątków}
 \end{figure}
-współczynnik wzrównolgleni mmiędzy wykonniem sekkwncyjnym  a wyko na8 prrcesach wynosi:\textit{ 7,0211.}
+Współczynnik zrównoleglenia między wykonaniem sekwencyjnym  a wykonaniem na 8 procesach wynosi:\textit{ 7,0211.}
 \pagebreak
-\subsection{Testy poprawnośći}
+\subsection{MPI. Testy poprawności}
 Wyniki przeprowadzone na podstawie Małych grafów (4 i 5 wierzchołkowych) pozwalają stwierdzić poprawność algorytmu. 
 Jednak przy większych rozwiązaniach Wyniki działania algorytmu na tym samym grafie nie zawsze dają te same rezultaty.  
-Na przykład 10 iteracji dla 4 wątków i grafu opisanego w sekcji \ref{opisGrafu} otrzymano nstępujące wyniki:
+Na przykład 10 iteracji dla 4 wątków i grafu opisanego w sekcji \ref{opisGrafu} otrzymano następujące wyniki:
  
  \begin{table}[H]
  \begin{tabular}{|p{2cm}|p{2cm}|p{4cm}|}
@@ -477,7 +477,8 @@ Na przykład 10 iteracji dla 4 wątków i grafu opisanego w sekcji \ref{opisGraf
  \caption{Tabela przedstawiająca wyniki działania algorytmu dla dziesięciu kolejnych iteracji dla grafu testowego}
  \end{table}
  
- Wyjaśnienie takiego zachowania jest oczywiste, ponieważ algorytm jako jedyne kryterium końca przyjmuje ilość pokoleń, to w zaleśności od osobników jakie dostał na wejście potrafi zbiegać do określonego rozwiązania, ale nie zawsze uda mu się zbiec do tego samego.
+ Wyjaśnienie takiego zachowania jest oczywiste, ponieważ algorytm jako jedyne kryterium końca przyjmuje ilość pokoleń, to w zależności od osobników jakie dostał na wejście potrafi zbiegać do określonego rozwiązania, ale nie zawsze uda mu się zbiec do tego samego.
+ 
 \section{Wnioski}
 W celu zbadania najbardziej pracochłonnych części programu dokonano profilowania aplikacji przy użyciu programu \textit{callgrid}. Operacją, która trwa najdłużej jest krzyżowanie osobników. Dyrektywy \textit{OpenMP} w celu zrównoleglenia pętli zostały dodane w następujących miejscach:
 \begin{itemize}
@@ -505,14 +506,14 @@ Większa ilość testów przeprowadzonych na algorytmie z różnymi parametrami 
 \item Wraz z powiększeniem wymiaru problemu przez zwiększenie liczby miast zrównoleglenie wykonania algorytmu powoduje lepsze rezultaty, ponieważ stosunek najbardziej pracochłonnych fragmentów programu, w których zastosowano dyrektywy OpenMP w celu zrównoleglenia, do reszty programu jest większy niż w przypadku małych problemów. 
 \item Metoda koła ruletki powoduje,że wraz ze wzrostem liczby pokoleń algorytm ewoluuje coraz wolniej (dochodzi do powolnej stagnacji).
 \end{itemize}
-\subsection{Wnioski z przeprowadzonych testów OpenMPI}
+\subsection{MPI. Wnioski z przeprowadzonych testów OpenMPI}
 
 Na podstawie testów przeprowadzonych na algorytmie można stwierdzić że zrównoleglenie dziedziny w znaczny sposób wpływa na przyspieszenie pracy algorytmu.
 Niestety nie jest to zależność liniowa, z racji tego że różne procesy w różnym czasie przetwarzają swoje części populacji. A w momencie agregacji wyników została ustawiona bariera więc te wątki które wykonały zadanie szybciej są zmuszone do czekania na wszystkie pozostałe.
 
 Istnieje pewna rozbieżność znajdowania najkrótszej ścieżki, ale wynika ona z ograniczenia ilości pokoleń (iteracji algorytmu). Więc algorytm zwraca najlepsze rozwiązanie jakie udało mu się znaleźć w danym czasie.
 
- Specyfika działania algorytmusprawia że poszczególne procesy komunikują się ze sobą stosunkowo niewiele, a co za tym idzie wpływ komunikacji na szybkośc działania jest niewielki.
+ Specyfika działania algorytmu sprawia że poszczególne procesy komunikują się ze sobą stosunkowo niewiele, a co za tym idzie wpływ komunikacji na szybkość działania jest niewielki.
  
 
 \end{document}

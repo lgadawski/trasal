@@ -49,7 +49,7 @@ shared_ptr<Map> Map::ReadMapFromFile(string path) {
 		}
 		for (uint i = 0; i < edges.size(); i++) {
 			if (!edges[i].empty()) {
-				cout << edges[i][0] << edges[i][1] << edges[i][2] << endl;
+//				cout << edges[i][0] << edges[i][1] << edges[i][2] << endl;
 				pair<City, City> cp(edges[i][0], edges[i][1]);
 				pair<pair<City, City>, int> edge(cp, edges[i][2]);
 				spm->AddEdge(edge);

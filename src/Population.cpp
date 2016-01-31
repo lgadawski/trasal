@@ -10,8 +10,8 @@ Population::Population(int* population,int* adjMatrix, int popSize, int indivSiz
 	this->population_size = popSize;
 	shared_ptr<Map> spm(new Map(population, adjMatrix, popSize, indivSize));
 	this->map= spm;
-	cout<< map->ToString();
-	cout<<endl;
+//	cout<< map->ToString();
+//	cout<<endl;
 	int* p = population;
 //	for(int i = 0 ; i < popSize*indivSize ; i++){
 //		cout<<p[i]<<", ";

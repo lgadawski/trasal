@@ -1,5 +1,6 @@
 #include "GeneticAlgorithm.h"
 #include <chrono>
+#include <mpi/mpi.h>
 
 Individual GeneticAlgorithm::Perform() {
 	std::chrono::high_resolution_clock::time_point t1 = std::chrono::high_resolution_clock::now();
@@ -10,16 +11,41 @@ Individual GeneticAlgorithm::Perform() {
 	std::chrono::high_resolution_clock::time_point t2 = std::chrono::high_resolution_clock::now();
 	auto duration =  std::chrono::duration_cast<std::chrono::microseconds>(t2-t1).count();
 //	cout<<"Initial population initialization time: "<< duration<<" microseconds"<<endl;
-
-	//start broadcast
-	int popSize=conf.GetPopulationSize();
-	int indSize=this->map->getMapSize();
-	int* smallPulationInt=initialPopulation;
+	MPI_Init(NULL, NULL);
+	int world_rank;
+	MPI_Comm_rank(MPI_COMM_WORLD, &world_rank);
+	int world_size;
+  	MPI_Comm_size(MPI_COMM_WORLD, &world_size);
+  	int numOfProc;
+  	MPI_Comm_size(MPI_COMM_WORLD, &numOfProc);
+  	cout<<" ProcessorsNumber = "<< numOfProc<<endl;
+  	int indSize =this->map->getMapSize();
+  	int sendCount = indSize* (conf.GetPopulationSize()/numOfProc);
+  	int smallPopSize = conf.GetPopulationSize()/numOfProc;
+  	cout<<"Before Proces with rank "<<world_rank<<" send pop size"<< smallPopSize<<" and indSize = "<<indSize<<"elements send "<<sendCount<<endl;
+  	//start broadcast
+	int* smallPulationInt=new int[sendCount];
 	int* adjMatrix2 = adjMatrix;
+  	MPI_Scatter(initialPopulation,
+  			 	sendCount,
+				MPI_INT,
+				smallPulationInt,
+				sendCount,
+				MPI_INT,
+				0,
+				MPI_COMM_WORLD);
+  	MPI_Bcast(adjMatrix,
+  			this->map->getMapSize()*this->map->getMapSize(),
+			MPI_INT,
+			0,
+			MPI_COMM_WORLD);
 	//end broadcast
 
 //	auto currentPopulation = initialPopulation->Reproduce();
-	shared_ptr<Population> initialPopulationSP(new Population(smallPulationInt, adjMatrix2, popSize, indSize));
+  	cout<<"Proces with rank "<<world_rank<<" recieved pop size "<< smallPopSize<<" and indSize = "<<indSize<<endl;
+  	cout<<"Population"<< world_rank<<":"<<endl;
+//  	printutils::printBuffer(smallPulationInt, smallPopSize*indSize ,5);
+  	shared_ptr<Population> initialPopulationSP(new Population(smallPulationInt, adjMatrix2, smallPopSize, indSize));
 	auto currentPopulation = initialPopulationSP->Reproduce();
 	auto whole_time = 0;
 	for (int i = 0; i < GENERATION_NUMBER; ++i) {
@@ -39,16 +65,38 @@ Individual GeneticAlgorithm::Perform() {
 //		cout<<i<<" 'st generation production time: "<<duration<<" microseconds"<<endl;
 	}
 
-	cout << endl << "whole loop time " << whole_time << endl;
+
 	// przesłanie najlepszego osobnika
+
 	auto best = initialPopulationSP.get()->GetBestIndividual();
 	int* bi = best.convertToIntBuffer();
-	// konczenie przesłania najlepszego osobnika
-
-	cout << endl << " END: ";
-	printutils::printPath(best.GetPath());
-	cout << endl << "PAth LEN: " << best.GetLength() << endl;
-
+//	cout<<"Best in from rank "<<world_rank <<":"; printutils::printBuffer(bi,5,5);
+	int recvbufSize = best.GetPath().size()* numOfProc;
+	int * bests = new int[recvbufSize];
+	MPI_Barrier(MPI_COMM_WORLD);
+	MPI_Gather(bi,
+			best.GetPath().size(),
+			MPI_INT,
+			bests,
+			best.GetPath().size(),
+			MPI_INT,
+			0,
+			MPI_COMM_WORLD);
+	MPI_Barrier(MPI_COMM_WORLD);
+//	// konczenie przesłania najlepszego osobnika
+//
+	if(world_rank ==0){
+		cout<<"Najlepsze"<<endl;
+		printutils::printBuffer(bests, indSize*numOfProc, indSize);
+		Population p(bests, adjMatrix, numOfProc, indSize);
+		auto bb = p.GetBestIndividual();
+		cout << endl << " Najlepszy osobnik po scaleniu: ";
+		printutils::printPath(bb.GetPath());
+		cout << endl << "Dlugosc najlepszej sciezki: " << bb.GetLength() << endl;
+		cout << endl << "whole loop time " << whole_time << endl;
+	}
+	MPI_Barrier(MPI_COMM_WORLD);
+	MPI_Finalize();
 	return initialPopulationSP->GetBestIndividual();
 }
 
@@ -66,12 +114,12 @@ int* GeneticAlgorithm::createPopulationFromMap(Map* mapa, int populationSize, in
 	}
 
 	cout<<"Population:"<<endl;
-	for(int i = 0 ; i < individualSize*populationSize ; i++){
-		if(i%individualSize==0){
-			cout<<endl;
-		}
-		cout<<population[i]<<", ";
-	}
+//	for(int i = 0 ; i < individualSize*populationSize ; i++){
+//		if(i%individualSize==0){
+//			cout<<endl;
+//		}
+//		cout<<population[i]<<", ";
+//	}
 	cout<<endl;
 	return population;
 }
@@ -93,13 +141,13 @@ int* GeneticAlgorithm::createAdjMatrixFromMap(shared_ptr<Map> map){
 		adjMatrix[i*matrixSize +i] = 0;
 	}
 
-	for(int i = 0 ; i < matrixSize*matrixSize ; i++){
-		if(i%matrixSize==0){
-			cout<<endl;
-		}
-		cout<<adjMatrix[i]<<", ";
-	}
-	cout<<endl;
+//	for(int i = 0 ; i < matrixSize*matrixSize ; i++){
+//		if(i%matrixSize==0){
+//			cout<<endl;
+//		}
+//		cout<<adjMatrix[i]<<", ";
+//	}
+//	cout<<endl;
 	return adjMatrix;
 }
 

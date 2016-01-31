@@ -49,3 +49,11 @@ void printutils::printPath(const std::vector<City> &path) {
 	}
 }
 
+void printutils::printBuffer(int* buffer, int BufferSize, int lineLen){
+	for(int i = 0; i < BufferSize; i++){
+		if(i % lineLen==0)
+			cout<<endl;
+		cout<<buffer[i]<<", ";
+	}
+}
+

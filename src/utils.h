@@ -16,5 +16,6 @@ namespace randomutils {
 
 namespace printutils {
 	void printPath(const std::vector<City> &path);
+	void printBuffer(int* buffer, int BufferSize, int lineLen);
 }
 #endif /* UTILS_H_ */

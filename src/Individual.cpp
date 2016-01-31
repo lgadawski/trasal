@@ -28,7 +28,7 @@ Individual::Individual(int* indPath, int indSize, shared_ptr<Map> m){
 		this->path.push_back(indPath[i]);
 	}
 	int dist = this->GetLength();
-	cout<<"Len: "<<dist<<endl;
+//	cout<<"Len: "<<dist<<endl;
 	this->cum_dist = dist;
 //	for(int i = 0 ; i<indSize-1 ; i++){
 //			City c1(path[i]);

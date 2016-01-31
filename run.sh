@@ -23,8 +23,10 @@
 #	echo $i st loop round finished
 #done
 
-for i in {1..10}
-do
-   	echo `mpiexec -n 16 -host localhost trasal.o >> wyniki16.txt`
-	echo $i st loop round finished
-done
+#for i in {1..10}
+#do
+#   	echo `mpiexec -n 16 -host localhost trasal.o >> wyniki16.txt`
+#	echo $i st loop round finished
+#done
+
+echo `mpiexec -n $1 -host localhost trasal.o
